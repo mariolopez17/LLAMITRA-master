@@ -1,0 +1,6 @@
+@LlamitraApi_HostAddress = http://localhost:5191
+
+GET {{LlamitraApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

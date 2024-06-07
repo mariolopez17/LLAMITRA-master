@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "epVHcE97ECcK5FTGnC8LTGKLfwD0O9Wb3RJMjzDdgDE=",
+  "Source": "LlamitraApi",
+  "BasePath": "_content/LlamitraApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
