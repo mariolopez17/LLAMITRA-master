@@ -8,6 +8,7 @@ namespace LlamitraApi.Models.Dtos.CourseDtos
         //public int? IdCategory { get; set; }
         [Required(ErrorMessage = "El nombre del profesor es obligatorio.")]
         [StringLength(20, ErrorMessage = "El nombre del profesor no puede superar los 20 caracteres.")]
+        
         public string? Professor { get; set; }
         [Required(ErrorMessage = "El precio del profesor es obligatorio, aunque sea 0.")]
         [Range(0, double.MaxValue, ErrorMessage = "El precio debe ser un valor positivo.")]

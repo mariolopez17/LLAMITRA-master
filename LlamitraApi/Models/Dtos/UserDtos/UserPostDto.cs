@@ -6,20 +6,24 @@ namespace LlamitraApi.Models.Dtos.UserDtos
     {
         [Required(ErrorMessage = "El nombre del usuario es obligatorio.")]
         [StringLength(20, MinimumLength = 1, ErrorMessage = "El nombre debe tener entre 1 y 20 caracteres.")]
+        [NoNumbers(ErrorMessage = "El nombre no puede contener números.")]
         public string? Name { get; set; }
         [Required(ErrorMessage = "El Apellido del usuario es obligatorio.")]
         [StringLength(20, MinimumLength = 1, ErrorMessage = "El Apellido debe tener entre 1 y 20 caracteres.")]
+        [NoNumbers(ErrorMessage = "El Apellido no puede contener números.")]
         public string? LastName { get; set; }
         [Required(ErrorMessage = "El correo electronico es requerido.")]
         [EmailAddress(ErrorMessage = "El correo electrónico no es válido.")]
         public string? Mail { get; set; }
         [Required(ErrorMessage = "El idRol es obligatorio.")]
-        [StringLength(1003, MinimumLength = 1000, ErrorMessage = "El id ingresado no es correcto")]
+        [NoLetters(ErrorMessage = "El idRol no puede contener letras.")]
+        //[StringLength(20, MinimumLength = 1, ErrorMessage = "El Apellido debe tener entre 1 y 20 caracteres.")]
         public int IdRol { get; set; }
         [Required(ErrorMessage = "La contraseña es obligatorio.")]
         [PasswordValidation]
         public string? Password { get; set; }
     }
+
     public class PasswordValidationAttribute : ValidationAttribute
     {
         public PasswordValidationAttribute()
@@ -46,6 +50,36 @@ namespace LlamitraApi.Models.Dtos.UserDtos
                           hasSpecialCharacter.IsMatch(Password);
 
             return isValid;
+        }
+    }
+    public class NoNumbersAttribute : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
+        {
+            if (value != null)
+            {
+                string stringValue = value.ToString() ?? string.Empty;
+                if (stringValue.Any(char.IsDigit))
+                {
+                    return new ValidationResult("El campo no puede contener números.");
+                }
+            }
+            return ValidationResult.Success!;
+        }
+    }
+    public class NoLettersAttribute : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
+        {
+            if (value != null)
+            {
+                string stringValue = value.ToString() ?? string.Empty;
+                if (stringValue.Any(char.IsLetter))
+                {
+                    return new ValidationResult(ErrorMessage ?? "El campo no puede contener letras.");
+                }
+            }
+            return ValidationResult.Success!;
         }
     }
 }
