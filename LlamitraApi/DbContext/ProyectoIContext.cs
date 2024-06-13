@@ -15,8 +15,6 @@ public partial class ProyectoIContext : DbContext
     {
     }
 
-    public virtual DbSet<Category> Categories { get; set; }
-
     public virtual DbSet<InLive> InLives { get; set; }
 
     public virtual DbSet<Presential> Presentials { get; set; }
@@ -31,24 +29,8 @@ public partial class ProyectoIContext : DbContext
     {
 
     }
-    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-    //       => optionsBuilder.UseSqlServer("Data Source=DESKTOP-TH76ASN; Initial Catalog=ProyectoI; Trusted_Connection=True;MultipleActiveResultSets=true;Trust Server Certificate=true");
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Category>(entity =>
-        {
-            entity.HasKey(e => e.IdCategory).HasName("PK_idCategory");
-
-            entity.Property(e => e.IdCategory).HasColumnName("idCategory");
-            entity.Property(e => e.IsActive)
-                .HasDefaultValue(true)
-                .HasColumnName("isActive");
-            entity.Property(e => e.Name)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasColumnName("name");
-        });
 
         modelBuilder.Entity<InLive>(entity =>
         {
@@ -61,7 +43,6 @@ public partial class ProyectoIContext : DbContext
                 .HasMaxLength(400)
                 .IsUnicode(false)
                 .HasColumnName("description");
-            //entity.Property(e => e.IdCategory).HasColumnName("idCategory");
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("price");
@@ -77,10 +58,6 @@ public partial class ProyectoIContext : DbContext
                 .HasMaxLength(200)
                 .IsUnicode(false)
                 .HasColumnName("url");
-
-            /*entity.HasOne(d => d.IdCategoryNavigation).WithMany(p => p.InLives)
-                .HasForeignKey(d => d.IdCategory)
-                .HasConstraintName("FK__InLive__idCatego__4222D4EF");*/
         });
 
         modelBuilder.Entity<Presential>(entity =>
@@ -94,7 +71,6 @@ public partial class ProyectoIContext : DbContext
                 .HasMaxLength(400)
                 .IsUnicode(false)
                 .HasColumnName("description");
-            //entity.Property(e => e.IdCategory).HasColumnName("idCategory");
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("price");
@@ -106,10 +82,6 @@ public partial class ProyectoIContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("title");
-
-            /*entity.HasOne(d => d.IdCategoryNavigation).WithMany(p => p.Presentials)
-                .HasForeignKey(d => d.IdCategory)
-                .HasConstraintName("FK__Presentia__idCat__47DBAE45");*/
         });
 
         modelBuilder.Entity<Role>(entity =>
@@ -163,7 +135,6 @@ public partial class ProyectoIContext : DbContext
                 .HasMaxLength(400)
                 .IsUnicode(false)
                 .HasColumnName("description");
-            //entity.Property(e => e.IdCategory).HasColumnName("idCategory");
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("price");
@@ -179,10 +150,6 @@ public partial class ProyectoIContext : DbContext
                 .HasMaxLength(450)
                 .IsUnicode(false)
                 .HasColumnName("url");
-
-            /*entity.HasOne(d => d.IdCategoryNavigation).WithMany(p => p.Videos)
-                .HasForeignKey(d => d.IdCategory)
-                .HasConstraintName("FK__Videos__idCatego__44FF419A");*/
         });
 
         OnModelCreatingPartial(modelBuilder);

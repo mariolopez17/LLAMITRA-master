@@ -6,13 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace LlamitraApi.Controllers
 {
     [ApiController]
-    [Route("Video")]
+    [Route("/video")]
     public class VideoController(IVideoServices videoServices) : ControllerBase
     {
         private readonly IVideoServices _videoServices = videoServices;
 
         [HttpPost]
-        [Route("RegisterVideo")]
         public async Task<IActionResult> RegisterVideo(VideoPostDto video)
         {
             try
@@ -26,14 +25,13 @@ namespace LlamitraApi.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("GetAllRandom")]
+        [HttpGet("/videos_aleatorio")]
         public async Task<IActionResult> GetAllRandom()
         {
             try
             {
                 var inLives = await _videoServices.GetAll();
-                var randomInLives = inLives.OrderBy(x => Guid.NewGuid()).ToList(); // Ordena de forma aleatoria
+                var randomInLives = inLives.OrderBy(x => Guid.NewGuid()).ToList(); 
 
                 return Ok(randomInLives);
             }
@@ -44,7 +42,6 @@ namespace LlamitraApi.Controllers
         }
 
         [HttpGet]
-        [Route("GetAll")]
         public async Task<IActionResult> GetAll()
         {
             try
@@ -57,8 +54,8 @@ namespace LlamitraApi.Controllers
                 return StatusCode(500, $"Error al obtener todos los videos: {ex.Message}");
             }
         }
-        [HttpGet]
-        [Route("GetById")]
+
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             try
@@ -73,8 +70,6 @@ namespace LlamitraApi.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteVideo")]
-
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -84,7 +79,6 @@ namespace LlamitraApi.Controllers
                 {
                     return NotFound($"No se obtuvo resultado con el id: {id}");
                 }
-
                 await _videoServices.Delete(inLiveToDelete);
                 return Ok("El Video se elimino con exito");
             }

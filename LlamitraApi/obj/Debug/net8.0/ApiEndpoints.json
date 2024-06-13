@@ -1,108 +1,8 @@
 [
   {
-    "ContainingType": "LlamitraApi.Controllers.PresentialController",
-    "Method": "Delete",
-    "RelativePath": "Course/DeletePresential",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LlamitraApi.Controllers.PresentialController",
-    "Method": "GetAll",
-    "RelativePath": "Course/GetAll",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LlamitraApi.Controllers.PresentialController",
-    "Method": "GetById",
-    "RelativePath": "Course/GetById",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LlamitraApi.Controllers.PresentialController",
-    "Method": "RegisterPresential",
-    "RelativePath": "Course/RegisterPresential",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "presential",
-        "Type": "LlamitraApi.Models.Dtos.CourseDtos.PresentialPostDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LlamitraApi.Controllers.InLiveController",
-    "Method": "Delete",
-    "RelativePath": "InLive/DeleteInLive",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LlamitraApi.Controllers.InLiveController",
-    "Method": "GetAll",
-    "RelativePath": "InLive/GetAll",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LlamitraApi.Controllers.InLiveController",
-    "Method": "GetById",
-    "RelativePath": "InLive/GetById",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "LlamitraApi.Controllers.InLiveController",
     "Method": "RegisterInLive",
-    "RelativePath": "InLive/RegisterInLive",
+    "RelativePath": "en_vivo",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -116,9 +16,109 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "LlamitraApi.Controllers.InLiveController",
+    "Method": "GetAll",
+    "RelativePath": "en_vivo",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LlamitraApi.Controllers.InLiveController",
+    "Method": "Delete",
+    "RelativePath": "en_vivo",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LlamitraApi.Controllers.InLiveController",
+    "Method": "GetById",
+    "RelativePath": "en_vivo/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LlamitraApi.Controllers.PresentialController",
+    "Method": "RegisterPresential",
+    "RelativePath": "presencial",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "presential",
+        "Type": "LlamitraApi.Models.Dtos.CourseDtos.PresentialPostDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LlamitraApi.Controllers.PresentialController",
+    "Method": "GetAll",
+    "RelativePath": "presencial",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LlamitraApi.Controllers.PresentialController",
+    "Method": "Delete",
+    "RelativePath": "presencial",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LlamitraApi.Controllers.PresentialController",
+    "Method": "GetById",
+    "RelativePath": "presencial/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LlamitraApi.Controllers.UserController",
     "Method": "RegisterUser",
-    "RelativePath": "Users/Register",
+    "RelativePath": "usuario",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -133,8 +133,34 @@
   },
   {
     "ContainingType": "LlamitraApi.Controllers.VideoController",
+    "Method": "RegisterVideo",
+    "RelativePath": "video",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "video",
+        "Type": "LlamitraApi.Models.Dtos.CourseDtos.VideoPostDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LlamitraApi.Controllers.VideoController",
+    "Method": "GetAll",
+    "RelativePath": "video",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LlamitraApi.Controllers.VideoController",
     "Method": "Delete",
-    "RelativePath": "Video/DeleteVideo",
+    "RelativePath": "video",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -149,28 +175,8 @@
   },
   {
     "ContainingType": "LlamitraApi.Controllers.VideoController",
-    "Method": "GetAll",
-    "RelativePath": "Video/GetAll",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LlamitraApi.Controllers.VideoController",
-    "Method": "GetAllRandom",
-    "RelativePath": "Video/GetAllRandom",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LlamitraApi.Controllers.VideoController",
     "Method": "GetById",
-    "RelativePath": "Video/GetById",
+    "RelativePath": "video/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -178,25 +184,19 @@
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": false
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "LlamitraApi.Controllers.VideoController",
-    "Method": "RegisterVideo",
-    "RelativePath": "Video/RegisterVideo",
-    "HttpMethod": "POST",
+    "Method": "GetAllRandom",
+    "RelativePath": "videos_aleatorio",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "video",
-        "Type": "LlamitraApi.Models.Dtos.CourseDtos.VideoPostDto",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   }
 ]

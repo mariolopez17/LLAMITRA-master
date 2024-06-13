@@ -6,13 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace LlamitraApi.Controllers
 {
     [ApiController]
-    [Route("Course")]
+    [Route("/presencial")]
     public class PresentialController(IPresentialServices presentialServices) : ControllerBase
     {
         private readonly IPresentialServices _presentialServices = presentialServices;
 
         [HttpPost]
-        [Route("RegisterPresential")]
         public async Task<IActionResult> RegisterPresential(PresentialPostDto presential)
         {
             try
@@ -27,8 +26,7 @@ namespace LlamitraApi.Controllers
 
         }
 
-        [HttpGet]
-        [Route("GetAll")]
+        [HttpGet("")]
         public async Task<IActionResult> GetAll()
         {
             try
@@ -42,8 +40,7 @@ namespace LlamitraApi.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("GetById")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             try
@@ -58,8 +55,6 @@ namespace LlamitraApi.Controllers
         }
 
         [HttpDelete]
-        [Route("DeletePresential")]
-
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -69,7 +64,6 @@ namespace LlamitraApi.Controllers
                 {
                     return NotFound($"No se obtuvo resultado con el id: {id}");
                 }
-
                 await _presentialServices.Delete(presentialDelete);
                 return Ok("Presencial se elimino con exito");
             }

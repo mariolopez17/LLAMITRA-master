@@ -8,14 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace LlamitraApi.Controllers
 {
     [ApiController]
-    [Route("InLive")]
+    [Route("/en_vivo")]
     public class InLiveController(IInLiveServices inLiveServices) : ControllerBase
     {
         private readonly IInLiveServices _inLiveServices = inLiveServices;
 
-        
         [HttpPost]
-        [Route("RegisterInLive")]
         public async Task<IActionResult> RegisterInLive(InLivePostDto inlive)
         {
             try
@@ -30,7 +28,6 @@ namespace LlamitraApi.Controllers
         }
 
         [HttpGet]
-        [Route("GetAll")]
         public async Task<IActionResult> GetAll()
         {
             try
@@ -44,8 +41,7 @@ namespace LlamitraApi.Controllers
             }
         }
         
-        [HttpGet]
-        [Route("GetById")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             try
@@ -60,8 +56,6 @@ namespace LlamitraApi.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteInLive")]
-
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -71,7 +65,6 @@ namespace LlamitraApi.Controllers
                 {
                     return NotFound($"No se obtuvo resultado con el id: {id}");
                 }
-
                 await _inLiveServices.Delete(inLiveDelete);
                 return Ok("El vivo se elimino con exito");
             }
