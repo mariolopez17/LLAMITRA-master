@@ -22,7 +22,7 @@ namespace LlamitraApi.Models.Dtos.UserDtos
         public string Mail { get; set; }
         [Required(ErrorMessage = "El numero de acceso es obligatorio.")]
         [RegularExpression(@"^[0-9]+$", ErrorMessage = "El numero de acceso solo debe contener números.")]
-        [JsonPropertyName("numero de acceso")]
+        [JsonPropertyName("numero_de_acceso")]
         [Range(0,4, ErrorMessage = "Tu numero de acceso no es de ningun usuario registrado")]
         public int IdRol { get; set; }
         [Required(ErrorMessage = "La contraseña es obligatorio.")]
