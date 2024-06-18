@@ -21,7 +21,7 @@ namespace LlamitraApi.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error al registrar video: {ex.Message}");
+                return StatusCode(500, $"Error al registrar video: {ex.Message}, tu error no esta dentro de los errores validados");
             }
         }
 
