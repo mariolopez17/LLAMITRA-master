@@ -19,7 +19,7 @@ namespace LlamitraApi.Services
                 IdRol = userPost.IdRol,
                 Password = userPost.Password
             };
-            //Le paso el repo el user que recibo del controlador
+            
             await _userRepository.AddUser(user);
         }
 

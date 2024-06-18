@@ -13,7 +13,6 @@ namespace LlamitraApi.Services
         {
             var InLive = new InLive()
             {
-                //IdCategory = inLive.IdCategory,
                 Professor = inLive.Professor,
                 Price = inLive.Price,
                 Title = inLive.Title,

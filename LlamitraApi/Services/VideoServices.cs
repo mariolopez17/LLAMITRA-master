@@ -14,7 +14,6 @@ namespace LlamitraApi.Services
         {
             var Video = new Video()
             {
-                //IdCategory = video.IdCategory,
                 Professor = video.Professor,
                 Price = video.Price,
                 Title = video.Title,
@@ -38,7 +37,6 @@ namespace LlamitraApi.Services
         {
             var VideoUpdate = new Video()
             {
-                //IdCategory = video.IdCategory,
                 Professor = video.Professor,
                 Price = video.Price,
                 Title = video.Title,
@@ -52,6 +50,5 @@ namespace LlamitraApi.Services
         {
             await _videoRepository.DeleteVideo(video);
         }
-
     }
 }

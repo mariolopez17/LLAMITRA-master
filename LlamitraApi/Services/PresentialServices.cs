@@ -13,7 +13,6 @@ namespace LlamitraApi.Services
         {
             var Presential = new Presential()
             {
-                //IdCategory = presential.IdCategory,
                 Professor = presential.Professor,
                 Price = presential.Price,
                 Title = presential.Title,
