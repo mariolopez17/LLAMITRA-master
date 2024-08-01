@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using LlamitraApi.Models;
+using LlamitraApi.Models.Dtos.CourseDtos;
 using LlamitraApi.Models.Dtos.UserDtos;
 
 namespace LlamitraApi.Helpers.Mapper
@@ -9,7 +10,8 @@ namespace LlamitraApi.Helpers.Mapper
         public AutoMapperProfiles()
         {
             CreateMap<UserPostDto, User>();
-            
+            CreateMap<Publication, PublicationPostDto>();
+            CreateMap<PublicationType, PublicationTypePostDto>();
         }
     }
 }

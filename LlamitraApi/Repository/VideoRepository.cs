@@ -1,4 +1,4 @@
-﻿using LlamitraApi.Models;
+﻿/*using LlamitraApi.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace LlamitraApi.Repository.IRepository
@@ -37,3 +37,4 @@ namespace LlamitraApi.Repository.IRepository
 
     }
 }
+*/

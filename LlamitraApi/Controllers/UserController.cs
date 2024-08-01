@@ -1,14 +1,18 @@
 ﻿using LlamitraApi.Models.Dtos.UserDtos;
 using LlamitraApi.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace LlamitraApi.Controllers
 {
     [ApiController]
     [Route("/usuario")]
+    [Authorize]
     public class UserController(IUserServices usuarioService) : ControllerBase
     {
         public readonly IUserServices _userService = usuarioService;
+        
 
         [HttpPost]
         public async Task<IActionResult> RegisterUser(UserPostDto userDto)

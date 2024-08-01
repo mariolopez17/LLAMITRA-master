@@ -4,6 +4,11 @@ using LlamitraApi.Repository.IRepository;
 using LlamitraApi.Services.IServices;
 using LlamitraApi.Services;
 using LlamitraApi.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.OpenApi.Models;
+using MimeKit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +18,38 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+//Bearer
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Llamitra API", Version = "v1" });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = @"JWT Authorization. <br /> <br />
+          Coloca 'Bearer' [Espacio] y pega el Token de autorizacion.<br /> <br />
+          Ejemplo: 'Bearer 23891ddad1'<br /> <br />",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Scheme = "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
+                        },
+                        new List<string>()
+                    }
+                });
+});
 
 builder.Services.AddDbContext<ProyectoIContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionDefault"))
@@ -20,17 +57,45 @@ builder.Services.AddDbContext<ProyectoIContext>(options =>
 
 
 //Services
+
+builder.Configuration.AddJsonFile("appsettings.json");
+var secretKey = builder.Configuration.GetSection("settings").GetSection("secretKey").ToString();
+var KeyBytes = Encoding.UTF8.GetBytes(secretKey);
+
+builder.Services.AddAuthentication(config =>
+{
+    config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+}).AddJwtBearer(config =>
+{
+    config.RequireHttpsMetadata = false;
+    config.SaveToken = true;
+    config.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(KeyBytes),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+}); 
+
+
+
 builder.Services.AddScoped<IUserServices, UserServices>();
-builder.Services.AddScoped<IVideoServices, VideoServices>();
-builder.Services.AddScoped<IPresentialServices, PresentialServices>();
-builder.Services.AddScoped<IInLiveServices, InLiveServices>();
-
+//builder.Services.AddScoped<IVideoServices, VideoServices>();
+//builder.Services.AddScoped<IPresentialServices, PresentialServices>();
+//builder.Services.AddScoped<IInLiveServices, InLiveServices>();
+builder.Services.AddScoped<IPublicationServices, PublicationServices>();
+builder.Services.AddScoped<IEmailServices, EmailServices>();
+builder.Services.AddScoped<IPublicationTypeServices, PublicationTypeServices>();
 //Repository
-builder.Services.AddScoped<IInLiveRepository, InLiveRepository>();
+//builder.Services.AddScoped<IInLiveRepository, InLiveRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IPresentialRepository, PresentialRepository>();
-builder.Services.AddScoped<IVideoRepository,VideoRepository>();
-
+//builder.Services.AddScoped<IPresentialRepository, PresentialRepository>();
+//builder.Services.AddScoped<IVideoRepository,VideoRepository>();
+builder.Services.AddScoped<IPublicationTypeRepository,  PublicationTypeRepository>();
+builder.Services.AddScoped<IPublicationRepository, PublicationRepository>();
 //Mappes
 builder.Services.AddAutoMapper(typeof(Program));
 
@@ -43,7 +108,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

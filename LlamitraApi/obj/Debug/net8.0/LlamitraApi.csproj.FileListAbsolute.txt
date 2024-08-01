@@ -276,3 +276,8 @@ C:\Users\mlopez\Desktop\LLAMITRA-master\LlamitraApi\obj\Debug\net8.0\LlamitraApi
 C:\Users\mlopez\Desktop\LLAMITRA-master\LlamitraApi\obj\Debug\net8.0\LlamitraApi.genruntimeconfig.cache
 C:\Users\mlopez\Desktop\LLAMITRA-master\LlamitraApi\obj\Debug\net8.0\ref\LlamitraApi.dll
 C:\Users\mlopez\Desktop\LLAMITRA-master\LlamitraApi\obj\Debug\net8.0\LlamitraApi.sourcelink.json
+C:\Users\mlopez\Desktop\LLAMITRA-master\LlamitraApi\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+C:\Users\mlopez\Desktop\LLAMITRA-master\LlamitraApi\bin\Debug\net8.0\MailKit.dll
+C:\Users\mlopez\Desktop\LLAMITRA-master\LlamitraApi\bin\Debug\net8.0\MimeKit.dll
+C:\Users\mlopez\Desktop\LLAMITRA-master\LlamitraApi\bin\Debug\net8.0\FluentValidation.dll
+C:\Users\mlopez\Desktop\LLAMITRA-master\LlamitraApi\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

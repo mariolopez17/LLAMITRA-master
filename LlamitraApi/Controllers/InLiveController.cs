@@ -1,9 +1,11 @@
 ﻿
-using LlamitraApi.Models;
+/*using LlamitraApi.Models;
 using LlamitraApi.Models.Dtos.CourseDtos;
 using LlamitraApi.Services;
 using LlamitraApi.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mail;
+using System.Net;
 
 namespace LlamitraApi.Controllers
 {
@@ -40,7 +42,8 @@ namespace LlamitraApi.Controllers
                 return StatusCode(500, $"Error al obtener todos los vivos: {ex.Message}");
             }
         }
-        
+       
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -75,3 +78,4 @@ namespace LlamitraApi.Controllers
         }
     }
 }
+*/

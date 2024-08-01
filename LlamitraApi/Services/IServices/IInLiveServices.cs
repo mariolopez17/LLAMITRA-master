@@ -1,4 +1,4 @@
-﻿using LlamitraApi.Models;
+﻿/*using LlamitraApi.Models;
 using LlamitraApi.Models.Dtos.CourseDtos;
 
 namespace LlamitraApi.Services.IServices
@@ -12,3 +12,4 @@ namespace LlamitraApi.Services.IServices
         Task Delete(InLive inLive);
     }
 }
+*/

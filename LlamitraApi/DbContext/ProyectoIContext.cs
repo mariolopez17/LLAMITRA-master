@@ -14,16 +14,17 @@ public partial class ProyectoIContext : DbContext
         : base(options)
     {
     }
+    public virtual DbSet<PublicationType> PublicationTypes { get; set; }
+    public virtual DbSet<Publication> Publications { get; set; }
+    //public virtual DbSet<InLive> InLives { get; set; }
 
-    public virtual DbSet<InLive> InLives { get; set; }
-
-    public virtual DbSet<Presential> Presentials { get; set; }
+    //public virtual DbSet<Presential> Presentials { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
-    public virtual DbSet<Video> Videos { get; set; }
+    //public virtual DbSet<Video> Videos { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -32,7 +33,8 @@ public partial class ProyectoIContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
 
-        modelBuilder.Entity<InLive>(entity =>
+        #region "codigo comentado"
+        /*modelBuilder.Entity<InLive>(entity =>
         {
             entity.HasKey(e => e.IdLive).HasName("PK_idLive");
 
@@ -58,15 +60,30 @@ public partial class ProyectoIContext : DbContext
                 .HasMaxLength(200)
                 .IsUnicode(false)
                 .HasColumnName("url");
+        });*/
+        #endregion
+        modelBuilder.Entity<PublicationType>(entity =>
+        {
+            entity.HasKey(e => e.IdType).HasName("PK_idPublicationType");
+
+            entity.Property(e => e.IdType).HasColumnName("idPublicationType");
+            entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("name");
         });
 
-        modelBuilder.Entity<Presential>(entity =>
+       
+
+        modelBuilder.Entity<Publication>(entity =>
         {
-            entity.HasKey(e => e.IdPresential).HasName("PK_idPresential");
+            entity.HasKey(e => e.IdPublication).HasName("PK_idPublication");
 
-            entity.ToTable("Presential");
+            entity.ToTable("Publication");
 
-            entity.Property(e => e.IdPresential).HasColumnName("idPresential");
+            entity.Property(e => e.IdPublication).HasColumnName("idPublication");
+            entity.Property(e => e.IdType).HasColumnName("idType");
+            entity.Property(e => e.IdUser).HasColumnName("idUser");
             entity.Property(e => e.Description)
                 .HasMaxLength(400)
                 .IsUnicode(false)
@@ -82,6 +99,14 @@ public partial class ProyectoIContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("title");
+            entity.Property(e => e.Url)
+               .HasMaxLength(450)
+               .IsUnicode(false)
+               .HasColumnName("url");
+            entity.HasOne(d => d.IdUserNavigation).WithMany(p => p.Publications)
+                .HasForeignKey(d => d.IdUser)
+                .HasConstraintName("FK__Publications__idRol");
+            
         });
 
         modelBuilder.Entity<Role>(entity =>
@@ -121,12 +146,13 @@ public partial class ProyectoIContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("password");
 
+
             entity.HasOne(d => d.IdRolNavigation).WithMany(p => p.Users)
                 .HasForeignKey(d => d.IdRol)
                 .HasConstraintName("FK__Users__idRol__3B75D760");
         });
-
-        modelBuilder.Entity<Video>(entity =>
+        #region "codigo comentado"
+        /*modelBuilder.Entity<Video>(entity =>
         {
             entity.HasKey(e => e.IdVideo).HasName("PK_idVideo");
 
@@ -150,8 +176,8 @@ public partial class ProyectoIContext : DbContext
                 .HasMaxLength(450)
                 .IsUnicode(false)
                 .HasColumnName("url");
-        });
-
+        });*/
+        #endregion
         OnModelCreatingPartial(modelBuilder);
     }
 

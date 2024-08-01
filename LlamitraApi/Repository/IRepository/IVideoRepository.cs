@@ -1,4 +1,4 @@
-﻿using LlamitraApi.Models;
+﻿/*using LlamitraApi.Models;
 
 namespace LlamitraApi.Repository.IRepository
 {
@@ -11,3 +11,4 @@ namespace LlamitraApi.Repository.IRepository
         Task DeleteVideo(Video video);
     }
 }
+*/

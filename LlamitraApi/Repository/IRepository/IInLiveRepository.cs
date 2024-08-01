@@ -1,4 +1,4 @@
-﻿using LlamitraApi.Models;
+﻿/*using LlamitraApi.Models;
 
 namespace LlamitraApi.Repository.IRepository
 {
@@ -10,4 +10,4 @@ namespace LlamitraApi.Repository.IRepository
         Task UpdateInLive(InLive inLive);
         Task DeleteInLive(InLive inLive);
     }
-}
+}*/
