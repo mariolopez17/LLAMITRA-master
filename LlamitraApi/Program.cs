@@ -56,11 +56,36 @@ builder.Services.AddDbContext<ProyectoIContext>(options =>
 );
 
 
+
 //Services
+//builder.Services.AddScoped<IAuthorizacionService, IAuthorizacionService>();
+var key = builder.Configuration.GetValue<string>("JwtSettings:Key");
+var keyBytes = Encoding.ASCII.GetBytes(key);
+builder.Services.AddAuthentication(config =>
+{
+    config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+}).AddJwtBearer(config =>
+{
+    config.RequireHttpsMetadata = false;
+    config.SaveToken = true;
+    config.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
+
 
 builder.Configuration.AddJsonFile("appsettings.json");
-var secretKey = builder.Configuration.GetSection("settings").GetSection("secretKey").ToString();
-var KeyBytes = Encoding.UTF8.GetBytes(secretKey);
+/*var secretKey = builder.Configuration.GetSection("settings").GetSection("secretKey").ToString();
+var KeyBytess = Encoding.UTF8.GetBytes(secretKey);
 
 builder.Services.AddAuthentication(config =>
 {
@@ -74,23 +99,20 @@ builder.Services.AddAuthentication(config =>
     config.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(KeyBytes),
+        IssuerSigningKey = new SymmetricSecurityKey(KeyBytess),
         ValidateIssuer = false,
         ValidateAudience = false
     };
-}); 
+}); */
 
 
 
 builder.Services.AddScoped<IUserServices, UserServices>();
-//builder.Services.AddScoped<IVideoServices, VideoServices>();
-//builder.Services.AddScoped<IPresentialServices, PresentialServices>();
-//builder.Services.AddScoped<IInLiveServices, InLiveServices>();
+builder.Services.AddScoped<IAuthorizacionService, AuthorizacionService>();
 builder.Services.AddScoped<IPublicationServices, PublicationServices>();
 builder.Services.AddScoped<IEmailServices, EmailServices>();
 builder.Services.AddScoped<IPublicationTypeServices, PublicationTypeServices>();
-//Repository
-//builder.Services.AddScoped<IInLiveRepository, InLiveRepository>();
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 //builder.Services.AddScoped<IPresentialRepository, PresentialRepository>();
 //builder.Services.AddScoped<IVideoRepository,VideoRepository>();

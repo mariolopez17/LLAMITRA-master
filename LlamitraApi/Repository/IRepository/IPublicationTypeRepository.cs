@@ -7,6 +7,6 @@ namespace LlamitraApi.Repository.IRepository
     {
         Task AddPublicationType(PublicationType PublicationType);
         Task<PublicationType> CheckPublicationType(string name);
-        Task<IEnumerable<PublicationType>> GetAllPublicationType();
+        Task<List<PublicationType>> GetAllPublicationType();
     }
 }

@@ -5,6 +5,7 @@ namespace LlamitraApi.Models.Dtos.CourseDtos
 {
     public class PublicationPostDto
     {
+        public int IdPublication { get; set; }
         public int IdType { get; set; }
         public int IdUser { get; set; }
         public string Professor { get; set; }

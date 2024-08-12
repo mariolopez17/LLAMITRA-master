@@ -7,5 +7,6 @@ namespace LlamitraApi.Services.IServices
     {
         Task CreateUser(UserPostDto userPost);
         Task<User> CheckMailUser(string mail);
+        Task<List<UserPostDto>> GetAll();
     }
 }

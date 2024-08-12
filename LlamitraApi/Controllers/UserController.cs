@@ -1,4 +1,6 @@
-﻿using LlamitraApi.Models.Dtos.UserDtos;
+﻿using LlamitraApi.Commons.Enum;
+using LlamitraApi.Commons;
+using LlamitraApi.Models.Dtos.UserDtos;
 using LlamitraApi.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,11 +10,10 @@ namespace LlamitraApi.Controllers
 {
     [ApiController]
     [Route("/usuario")]
-    [Authorize]
+    //TODO mover el post de RegisterUser a authentication  y crear un LoginUser en authentication 
     public class UserController(IUserServices usuarioService) : ControllerBase
     {
         public readonly IUserServices _userService = usuarioService;
-        
 
         [HttpPost]
         public async Task<IActionResult> RegisterUser(UserPostDto userDto)
@@ -30,6 +31,37 @@ namespace LlamitraApi.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, $"Error al registrar el usuario: {ex.Message}, tu error no esta dentro de los errores validados");
+            }
+        }
+        [HttpGet("")]
+        public async Task<ActionResult<ResponseObjectJsonDto>> GetAll()
+        {
+            try
+            {
+                var publicationTypeDto = await _userService.GetAll();
+                if (publicationTypeDto == null)
+                {
+                    return new ResponseObjectJsonDto()
+                    {
+                        Code = (int)CodeHttp.NOTFOUND,
+                        Message = "No se encontro ningun tipo de publicacion",
+                        Response = null
+                    };
+                }
+                else
+                {
+                    return new ResponseObjectJsonDto()
+                    {
+                        Code = (int)CodeHttp.OK,
+                        Message = "tipo de publicacion encontrada con exito.",
+                        Response = publicationTypeDto
+                    };
+                }
+                //return Ok(publicationTypeDto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al obtener todos los tipos de publicaciones: {ex.Message}");
             }
         }
     }

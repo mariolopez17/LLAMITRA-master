@@ -19,8 +19,9 @@ namespace LlamitraApi.Repository
             // Buscar un usuario en función del correo electrónico
             return await _dbContext.PublicationTypes.FirstOrDefaultAsync(u => u.Name == categoryName);
         }
-        public async Task<IEnumerable<PublicationType>> GetAllPublicationType()
+        public async Task<List<PublicationType>> GetAllPublicationType()
         {
+            //return await _dbContext.PublicationTypes.Include(e => e.Name).ToListAsync();
             return await _dbContext.PublicationTypes.ToListAsync();
         }
     }

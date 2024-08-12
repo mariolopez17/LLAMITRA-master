@@ -1,21 +1,5 @@
 [
   {
-    "ContainingType": "LlamitraApi.Controllers.AuthenticationController",
-    "Method": "Validar",
-    "RelativePath": "api/Authentication/Validar",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "LlamitraApi.Models.Dtos.UserDtos.UserPostDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "LlamitraApi.Controllers.EmailController",
     "Method": "SendEmail",
     "RelativePath": "api/Email",
@@ -45,7 +29,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "LlamitraApi.Commons.ResponseObjectJsonDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "LlamitraApi.Controllers.PublicationTypeController",
@@ -55,6 +49,32 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "LlamitraApi.Commons.ResponseObjectJsonDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LlamitraApi.Controllers.UserAuthController",
+    "Method": "authenticate",
+    "RelativePath": "api/UserAuth/Autenticar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "authorizacion",
+        "Type": "LlamitraApi.Models.Dtos.UserDtos.LoginDto",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -66,12 +86,22 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "publication",
+        "Name": "Creationpublication",
         "Type": "LlamitraApi.Models.Dtos.CourseDtos.PublicationPostDto",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "LlamitraApi.Commons.ResponseObjectJsonDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "LlamitraApi.Controllers.PublicationController",
@@ -133,7 +163,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "LlamitraApi.Commons.ResponseObjectJsonDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "LlamitraApi.Controllers.UserController",
@@ -150,5 +190,25 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LlamitraApi.Controllers.UserController",
+    "Method": "GetAll",
+    "RelativePath": "usuario",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "LlamitraApi.Commons.ResponseObjectJsonDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   }
 ]

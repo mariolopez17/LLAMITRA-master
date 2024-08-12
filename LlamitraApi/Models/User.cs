@@ -15,4 +15,5 @@ public partial class User
     public bool IsActive { get; set; }
     public virtual Role IdRolNavigation { get; set; }
     public virtual ICollection<Publication> Publications { get; set; } = [];
+    
 }

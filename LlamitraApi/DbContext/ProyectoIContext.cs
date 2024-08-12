@@ -21,7 +21,7 @@ public partial class ProyectoIContext : DbContext
     //public virtual DbSet<Presential> Presentials { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
-
+    //public virtual DbSet<userLogin> UserLogins {get; set;}
     public virtual DbSet<User> Users { get; set; }
 
     //public virtual DbSet<Video> Videos { get; set; }
@@ -72,8 +72,6 @@ public partial class ProyectoIContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("name");
         });
-
-       
 
         modelBuilder.Entity<Publication>(entity =>
         {

@@ -9,9 +9,10 @@ namespace LlamitraApi.Helpers.Mapper
     {
         public AutoMapperProfiles()
         {
-            CreateMap<UserPostDto, User>();
+            CreateMap<User, UserPostDto>();
             CreateMap<Publication, PublicationPostDto>();
             CreateMap<PublicationType, PublicationTypePostDto>();
+           
         }
     }
 }

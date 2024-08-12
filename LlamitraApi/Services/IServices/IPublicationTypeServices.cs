@@ -8,6 +8,6 @@ namespace LlamitraApi.Services.IServices
     {
         Task CreatePublicationType(PublicationTypePostDto publicationTypeDto);
         Task<PublicationType> CheckNamePublicationType(string name);
-        Task<IEnumerable<PublicationType>> GetAll();
+        Task<List<PublicationTypePostDto>> GetAll();
     }
 }

@@ -2,6 +2,7 @@
 {
     public class PublicationTypePostDto
     {
+        
         public string Name { get; set; }
     }
 }

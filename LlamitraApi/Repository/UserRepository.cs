@@ -22,5 +22,12 @@ namespace LlamitraApi.Repository
             // Buscar un usuario en función del correo electrónico
             return await _dbContext.Users.FirstOrDefaultAsync(u => u.Mail == email);
         }
+
+        public async Task<List<User>> GetAllUser()
+        {
+            //return await _dbContext.Users.Include(e => e.Name).ToListAsync();
+            return await _dbContext.Users.ToListAsync();
+        }
+
     }
 }

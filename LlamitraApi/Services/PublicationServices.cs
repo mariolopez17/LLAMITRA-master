@@ -1,6 +1,5 @@
 ﻿using LlamitraApi.Models.Dtos.CourseDtos;
 using LlamitraApi.Models;
-using LlamitraApi.Repository;
 using LlamitraApi.Repository.IRepository;
 using LlamitraApi.Services.IServices;
 using AutoMapper;
@@ -36,11 +35,20 @@ namespace LlamitraApi.Services
 
             return publicationsDtos;
         }
-
         public async Task<Publication> GetById(int id)
         {
             return await _PublicationRepository.GetPublicationById(id);
         }
+
+        /*public async Task<List<PublicationPostDto>> GetById(int id)
+        {
+
+            //var publicationIdDtos = new List<PublicationPostDto>();
+            var publicationsId= await _PublicationRepository.GetPublicationById(id);
+
+            //_mapper.Map(publicationsId, publicationIdDtos);
+            return publicationsId; 
+        }*/
 
         public Task UpdatePublication(Publication publication)
         {

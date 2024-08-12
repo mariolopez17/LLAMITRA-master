@@ -13,8 +13,6 @@ namespace LlamitraApi.Repository
         {
             var idType = await _dbContext.PublicationTypes.FindAsync(publication.IdType);
             publication.IdTypeNavigation = idType;
-            //var idUser = await _dbContext.Users.FindAsync(publication.IdUser);
-            //publication.IdUserNavigation = idUser;
             await _dbContext.Publications.AddAsync(publication);
             await _dbContext.SaveChangesAsync();
         }
@@ -22,14 +20,11 @@ namespace LlamitraApi.Repository
         public async Task<List<Publication>> GetAllPublication()
         {
             return await _dbContext.Publications.Include(e => e.IdTypeNavigation).ToListAsync();
-            //return await _dbContext.Publications.Include(a =>a.IdUserNavigation).ToListAsync();
         }
-
         public async Task<Publication> GetPublicationById(int id)
         {
             return await _dbContext.Publications.FirstOrDefaultAsync(p => p.IdPublication == id);
         }
-
         public Task UpdatePublication(Publication publication)
         {
             throw new NotImplementedException();
@@ -40,8 +35,6 @@ namespace LlamitraApi.Repository
             _dbContext.Publications.Remove(publication);
             await _dbContext.SaveChangesAsync();
         }
-
-
 
     }
 }

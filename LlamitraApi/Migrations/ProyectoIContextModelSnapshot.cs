@@ -172,11 +172,10 @@ namespace LlamitraApi.Migrations
 
                     b.ToTable("Users");
                 });
-
             modelBuilder.Entity("LlamitraApi.Models.Publication", b =>
                 {
                     b.HasOne("LlamitraApi.Models.PublicationType", "IdTypeNavigation")
-                        .WithMany()
+                        .WithMany("Publications")
                         .HasForeignKey("IdTypeNavigationIdType");
 
                     b.HasOne("LlamitraApi.Models.User", "IdUserNavigation")
@@ -201,6 +200,11 @@ namespace LlamitraApi.Migrations
                         .HasConstraintName("FK__Users__idRol__3B75D760");
 
                     b.Navigation("IdRolNavigation");
+                });
+
+            modelBuilder.Entity("LlamitraApi.Models.PublicationType", b =>
+                {
+                    b.Navigation("Publications");
                 });
 
             modelBuilder.Entity("LlamitraApi.Models.Role", b =>

@@ -1,4 +1,6 @@
-﻿using LlamitraApi.Models.Dtos.CourseDtos;
+﻿using LlamitraApi.Commons;
+using LlamitraApi.Commons.Enum;
+using LlamitraApi.Models.Dtos.CourseDtos;
 using LlamitraApi.Models.Dtos.UserDtos;
 using LlamitraApi.Services;
 using LlamitraApi.Services.IServices;
@@ -10,23 +12,34 @@ namespace LlamitraApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class PublicationTypeController(IPublicationTypeServices TypeService) : ControllerBase 
     {
         public readonly IPublicationTypeServices _TypeService = TypeService;
 
         [HttpPost]
-        public async Task<IActionResult> RegisterPublicationType(PublicationTypePostDto publicationTypeDto)
+        public async Task<ActionResult<ResponseObjectJsonDto>> RegisterPublicationType(PublicationTypePostDto publicationTypeDto)
         {
             try
             {
                 var existingUser = await _TypeService.CheckNamePublicationType(publicationTypeDto.Name);
+                await _TypeService.CreatePublicationType(publicationTypeDto);
                 if (existingUser != null)
                 {
-                    return Conflict("Ya hay un usuario registrado con este mail, inicie sesion o pruebe otro mail.");
-                }
-                await _TypeService.CreatePublicationType(publicationTypeDto);
-                return Ok("Usuario registrado exitosamente.");
+                    return new ResponseObjectJsonDto()
+                    {
+                        Code= (int)CodeHttp.CONFLICT,
+                        Message= "Ya hay un tipo de publicacion con este nombre",
+                        Response = null
+                    };
+                }else {
+                    return new ResponseObjectJsonDto()
+                    {
+                        Code = (int)CodeHttp.OK,
+                        Message = "tipo de publicacion registrada exitosamente.",
+                        Response = publicationTypeDto
+                    };
+                }            
             }
             catch (Exception ex)
             {
@@ -34,12 +47,30 @@ namespace LlamitraApi.Controllers
             }
         }
         [HttpGet("")]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<ResponseObjectJsonDto>> GetAll()
         {
             try
             {
                 var publicationTypeDto = await _TypeService.GetAll();
-                return Ok(publicationTypeDto);
+                if (publicationTypeDto == null)
+                {
+                    return new ResponseObjectJsonDto()
+                    {
+                        Code = (int)CodeHttp.NOTFOUND,
+                        Message= "No se encontro ningun tipo de publicacion",
+                        Response= null
+                    };
+                }
+                else
+                {
+                    return new ResponseObjectJsonDto()
+                    {
+                        Code = (int)CodeHttp.OK,
+                        Message = "tipo de publicacion encontrada con exito.",
+                        Response = publicationTypeDto
+                    };
+                }
+                //return Ok(publicationTypeDto);
             }
             catch (Exception ex)
             {

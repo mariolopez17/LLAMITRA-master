@@ -7,6 +7,7 @@ namespace LlamitraApi.Repository.IRepository
     {
         Task AddPublication(Publication publication);
         Task<Publication> GetPublicationById(int id);
+        //Task<List<Publication>> GetPublicationById(int id);
         Task<List<Publication>> GetAllPublication();
         Task UpdatePublication(Publication publication);
         Task DeletePublication(Publication publication);

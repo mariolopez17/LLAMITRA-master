@@ -8,6 +8,7 @@ namespace LlamitraApi.Services.IServices
         Task CreatePublication(PublicationPostDto publication);
         Task<List<PublicationPostDto>> GetAll();
         Task<Publication> GetById(int id);
+        //Task<List<PublicationPostDto>> GetById(int id);
         Task UpdatePublication(Publication publication);
         Task DeletePublication(Publication publication);
     }
