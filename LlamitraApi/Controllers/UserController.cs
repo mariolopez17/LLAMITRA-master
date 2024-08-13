@@ -16,6 +16,7 @@ namespace LlamitraApi.Controllers
         public readonly IUserServices _userService = usuarioService;
 
         [HttpPost]
+
         public async Task<IActionResult> RegisterUser(UserPostDto userDto)
         {
             try
@@ -34,6 +35,7 @@ namespace LlamitraApi.Controllers
             }
         }
         [HttpGet("")]
+        [Authorize]
         public async Task<ActionResult<ResponseObjectJsonDto>> GetAll()
         {
             try
@@ -62,6 +64,21 @@ namespace LlamitraApi.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, $"Error al obtener todos los tipos de publicaciones: {ex.Message}");
+            }
+        }
+
+        [HttpGet("{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            try
+            {
+                var inLives = await _userService.GetByIdUser(id);
+                return Ok(inLives);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al obtener todos los vivos: {ex.Message}");
             }
         }
     }

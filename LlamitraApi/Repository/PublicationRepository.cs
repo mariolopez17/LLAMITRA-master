@@ -19,7 +19,9 @@ namespace LlamitraApi.Repository
 
         public async Task<List<Publication>> GetAllPublication()
         {
-            return await _dbContext.Publications.Include(e => e.IdTypeNavigation).ToListAsync();
+            //return await _dbContext.Publications.Include(e => e.IdTypeNavigation).ToListAsync();
+            return await _dbContext.Publications.ToListAsync();
+
         }
         public async Task<Publication> GetPublicationById(int id)
         {

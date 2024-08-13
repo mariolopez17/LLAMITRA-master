@@ -29,5 +29,10 @@ namespace LlamitraApi.Repository
             return await _dbContext.Users.ToListAsync();
         }
 
+        public async Task<User> GetUserById(int id)
+        {
+            return await _dbContext.Users.FirstOrDefaultAsync(i => i.IdUser == id);
+        }
     }
+
 }

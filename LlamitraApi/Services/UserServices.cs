@@ -40,5 +40,10 @@ namespace LlamitraApi.Services
             return usersDto;
             //return await _userRepository.GetAllUser();
         }
+
+        public async Task<User> GetByIdUser(int id)
+        {
+            return await _userRepository.GetUserById(id);
+        }
     }
 }

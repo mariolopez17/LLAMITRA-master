@@ -9,6 +9,7 @@ namespace LlamitraApi.Repository.IRepository
         Task AddUser(User User);
         Task<User> CheckUser(string mail);
         Task<List<User>> GetAllUser();
+        Task<User> GetUserById(int id);
 
     }
 }

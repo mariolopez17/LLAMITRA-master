@@ -28,6 +28,7 @@ namespace LlamitraApi.Controllers
         private readonly IMapper _mapper = mapper;
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<ResponseObjectJsonDto>> RegisterPublication(PublicationPostDto Creationpublication)
         {
             try
@@ -130,6 +131,7 @@ namespace LlamitraApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
 
         public async Task<ActionResult<ResponseObjectJsonDto>> Delete([FromRoute] int id)
         {

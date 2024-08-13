@@ -18,6 +18,7 @@ namespace LlamitraApi.Controllers
         public readonly IPublicationTypeServices _TypeService = TypeService;
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<ResponseObjectJsonDto>> RegisterPublicationType(PublicationTypePostDto publicationTypeDto)
         {
             try
