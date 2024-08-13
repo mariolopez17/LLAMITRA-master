@@ -101,6 +101,9 @@ public partial class ProyectoIContext : DbContext
                .HasMaxLength(450)
                .IsUnicode(false)
                .HasColumnName("url");
+            entity.HasOne(d => d.IdTypeNavigation).WithMany(p => p.Publications)
+                .HasForeignKey(d => d.IdType)
+                .HasConstraintName("FK_Publications_IdType");
             entity.HasOne(d => d.IdUserNavigation).WithMany(p => p.Publications)
                 .HasForeignKey(d => d.IdUser)
                 .HasConstraintName("FK__Publications__idRol");
