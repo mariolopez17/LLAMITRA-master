@@ -26,7 +26,7 @@ namespace LlamitraApi.Models.Dtos.UserDtos
         [Range(0,4, ErrorMessage = "Tu numero de acceso no es de ningun usuario registrado")]
         public int IdRol { get; set; }
         [Required(ErrorMessage = "La contraseña es obligatorio.")]
-        [StringLength(30, MinimumLength = 1, ErrorMessage = "El mail debe tener entre 1 y 30 caracteres como maximo.")]
+        [StringLength(30, MinimumLength = 1, ErrorMessage = "la Contraseña debe tener entre 1 y 30 caracteres como maximo.")]
         [PasswordValidation]
         [JsonPropertyName("contraseña")]
         public string Password { get; set; }

@@ -6,7 +6,7 @@ namespace LlamitraApi.Services.IServices
     public interface IPublicationServices
     {
         Task CreatePublication(PublicationPostDto publication);
-        Task<List<PublicationPostDto>> GetAll();
+        Task<List<PublicacionGetDto>> GetAll();
         Task<Publication> GetById(int id);
         //Task<List<PublicationPostDto>> GetById(int id);
         Task UpdatePublication(Publication publication);

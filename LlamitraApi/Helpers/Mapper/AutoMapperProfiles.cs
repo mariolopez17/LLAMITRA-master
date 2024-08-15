@@ -11,6 +11,7 @@ namespace LlamitraApi.Helpers.Mapper
         {
             CreateMap<User, UserPostDto>();
             CreateMap<Publication, PublicationPostDto>();
+            CreateMap<Publication, PublicacionGetDto>();
             CreateMap<PublicationType, PublicationTypePostDto>();
            
         }

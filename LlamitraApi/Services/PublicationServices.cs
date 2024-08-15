@@ -26,9 +26,9 @@ namespace LlamitraApi.Services
             await _PublicationRepository.AddPublication(ppublication);
         }
 
-        public async Task<List<PublicationPostDto>> GetAll()
+        public async Task<List<PublicacionGetDto>> GetAll()
         {
-            var publicationsDtos = new List<PublicationPostDto>();
+            var publicationsDtos = new List<PublicacionGetDto>();
             var publications = await _PublicationRepository.GetAllPublication();
 
             _mapper.Map(publications, publicationsDtos);
