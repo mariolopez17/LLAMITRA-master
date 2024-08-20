@@ -13,7 +13,6 @@ namespace LlamitraApi.Helpers.Mapper
             CreateMap<Publication, PublicationPostDto>();
             CreateMap<Publication, PublicacionGetDto>();
             CreateMap<PublicationType, PublicationTypePostDto>();
-           
         }
     }
 }

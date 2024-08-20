@@ -3,7 +3,9 @@ using LlamitraApi.Commons;
 using LlamitraApi.Commons.Enum;
 using LlamitraApi.Models;
 using LlamitraApi.Models.Dtos.CourseDtos;
+using LlamitraApi.Models.Metodo;
 using LlamitraApi.Repository.IRepository;
+using LlamitraApi.Services;
 using LlamitraApi.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +25,11 @@ namespace LlamitraApi.Controllers
         IMapper mapper
         ) : ControllerBase
     {
+        private readonly List<PublicacionGetDto> _products = new List<PublicacionGetDto> { };
         private readonly IPublicationServices _PublicationServices = PublicationServices;
         private readonly IPublicationRepository _publicationRepository = publicationRepository;
         private readonly IMapper _mapper = mapper;
+        
 
         [HttpPost]
         [Authorize]
@@ -72,8 +76,8 @@ namespace LlamitraApi.Controllers
                 {
                     return new ResponseObjectJsonDto()
                     {
-                        Code= (int)CodeHttp.NOTFOUND,
-                        Message= "No se encontró una publicacion.",
+                        Code = (int)CodeHttp.NOTFOUND,
+                        Message = "No se encontró una publicacion.",
                         Response = null
                     };
                     //throw new($"No se encontró una publicacion.");
@@ -88,11 +92,46 @@ namespace LlamitraApi.Controllers
                         Response = publications
                     };
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return StatusCode(500, $"Error al registrar la publicacion: {ex.Message}, tu error no esta dentro de los errores validados");
             }
         }
+        [HttpGet("/RandomList")]
+        public async Task<ActionResult<ResponseObjectJsonDto>> GetRandomList()
+        {
+            try
+            {
+                var publications = await _PublicationServices.GetRandomList();
+
+                if (publications == null)
+                {
+                    return new ResponseObjectJsonDto()
+                    {
+                        Code = (int)CodeHttp.NOTFOUND,
+                        Message = "No se encontró una publicacion.",
+                        Response = null
+                    };
+                    //throw new($"No se encontró una publicacion.");
+                }
+
+                else
+                {
+                    return new ResponseObjectJsonDto()
+                    {
+                        Code = (int)HttpStatusCode.OK,
+                        Message = "Se obtuvieron todas las publicaciones",
+                        Response = publications
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al registrar la publicacion: {ex.Message}, tu error no esta dentro de los errores validados");
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<ResponseObjectJsonDto>> GetById(int id)
         {

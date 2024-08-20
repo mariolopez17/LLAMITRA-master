@@ -106,7 +106,6 @@ builder.Services.AddAuthentication(config =>
 }); */
 
 
-
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<IAuthorizacionService, AuthorizacionService>();
 builder.Services.AddScoped<IPublicationServices, PublicationServices>();
@@ -114,8 +113,6 @@ builder.Services.AddScoped<IEmailServices, EmailServices>();
 builder.Services.AddScoped<IPublicationTypeServices, PublicationTypeServices>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-//builder.Services.AddScoped<IPresentialRepository, PresentialRepository>();
-//builder.Services.AddScoped<IVideoRepository,VideoRepository>();
 builder.Services.AddScoped<IPublicationTypeRepository,  PublicationTypeRepository>();
 builder.Services.AddScoped<IPublicationRepository, PublicationRepository>();
 //Mappes

@@ -176,6 +176,26 @@
     ]
   },
   {
+    "ContainingType": "LlamitraApi.Controllers.PublicationController",
+    "Method": "GetRandomList",
+    "RelativePath": "RandomList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "LlamitraApi.Commons.ResponseObjectJsonDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "LlamitraApi.Controllers.UserController",
     "Method": "RegisterUser",
     "RelativePath": "usuario",
