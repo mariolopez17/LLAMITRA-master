@@ -569,3 +569,4 @@ C:\Users\mlopez\Desktop\Llamitra_actual\LLAMITRA-master\LlamitraApi\obj\Debug\ne
 C:\Users\mlopez\Desktop\Llamitra_actual\LLAMITRA-master\LlamitraApi\obj\Debug\net8.0\LlamitraApi.pdb
 C:\Users\mlopez\Desktop\Llamitra_actual\LLAMITRA-master\LlamitraApi\obj\Debug\net8.0\LlamitraApi.genruntimeconfig.cache
 C:\Users\mlopez\Desktop\Llamitra_actual\LLAMITRA-master\LlamitraApi\obj\Debug\net8.0\ref\LlamitraApi.dll
+C:\Users\mlopez\Desktop\Llamitra_actual\LLAMITRA-master\LlamitraApi\bin\Debug\net8.0\LlamitraApi.staticwebassets.runtime.json

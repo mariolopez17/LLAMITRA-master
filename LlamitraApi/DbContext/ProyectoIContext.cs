@@ -72,6 +72,10 @@ public partial class ProyectoIContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("name");
         });
+        modelBuilder.Entity<Publication>()
+            .Property(p => p.FileName).HasColumnName("FileName");
+        modelBuilder.Entity<Publication>()
+            .Property(p => p.FileContent).HasColumnName("FileContent");
 
         modelBuilder.Entity<Publication>(entity =>
         {
@@ -86,6 +90,8 @@ public partial class ProyectoIContext : DbContext
                 .HasMaxLength(400)
                 .IsUnicode(false)
                 .HasColumnName("description");
+            entity.Property(p => p.FileName).HasColumnName("FileName");
+            entity.Property(p => p.FileContent).HasColumnName("FileContent");
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("price");
@@ -97,10 +103,6 @@ public partial class ProyectoIContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("title");
-            entity.Property(e => e.Url)
-               .HasMaxLength(450)
-               .IsUnicode(false)
-               .HasColumnName("url");
             entity.HasOne(d => d.IdTypeNavigation).WithMany(p => p.Publications)
                 .HasForeignKey(d => d.IdType)
                 .HasConstraintName("FK_Publications_IdType");

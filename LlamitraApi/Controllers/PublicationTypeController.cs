@@ -71,7 +71,6 @@ namespace LlamitraApi.Controllers
                         Response = publicationTypeDto
                     };
                 }
-                //return Ok(publicationTypeDto);
             }
             catch (Exception ex)
             {

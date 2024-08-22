@@ -10,7 +10,7 @@ namespace LlamitraApi.Helpers.Mapper
         public AutoMapperProfiles()
         {
             CreateMap<User, UserPostDto>();
-            CreateMap<Publication, PublicationPostDto>();
+            CreateMap<Publication, PublicationPostDto>().ReverseMap();
             CreateMap<Publication, PublicacionGetDto>();
             CreateMap<PublicationType, PublicationTypePostDto>();
         }

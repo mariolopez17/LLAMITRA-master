@@ -16,7 +16,6 @@ namespace LlamitraApi.Repository
 
         public async Task<PublicationType> CheckPublicationType(string categoryName)
         {
-            // Buscar un usuario en función del correo electrónico
             return await _dbContext.PublicationTypes.FirstOrDefaultAsync(u => u.Name == categoryName);
         }
         public async Task<List<PublicationType>> GetAllPublicationType()

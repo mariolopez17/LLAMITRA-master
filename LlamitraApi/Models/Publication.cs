@@ -12,7 +12,8 @@ namespace LlamitraApi.Models
         public decimal Price { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public string Url { get; set; }
+        public string FileName { get; set; }
+        public byte[] FileContent { get; set; }
 
         public virtual PublicationType IdTypeNavigation { get; set; }
         public virtual User IdUserNavigation { get; set; }

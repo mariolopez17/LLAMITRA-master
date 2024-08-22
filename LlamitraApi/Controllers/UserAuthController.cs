@@ -14,15 +14,12 @@ namespace LlamitraApi.Controllers
     public class UserAuthController : ControllerBase
     {
         private readonly IAuthorizacionService _authorizacionService;
-
         public UserAuthController(IAuthorizacionService authorizacionService)
         {
             _authorizacionService = authorizacionService;
         }
-
         [HttpPost]
         [Route("Autenticar")]
-
         public async Task<IActionResult> authenticate([FromBody] LoginDto authorizacion)
         {
             var result_authorizacion = await _authorizacionService.DevolverToken(authorizacion);

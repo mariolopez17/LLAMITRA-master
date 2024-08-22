@@ -4,11 +4,13 @@ using LlamitraApi.Commons.Enum;
 using LlamitraApi.Models;
 using LlamitraApi.Models.Dtos.CourseDtos;
 using LlamitraApi.Models.Metodo;
+using LlamitraApi.Repository;
 using LlamitraApi.Repository.IRepository;
 using LlamitraApi.Services;
 using LlamitraApi.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MimeKit;
 using System;
 using System.Net;
 using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
@@ -25,13 +27,26 @@ namespace LlamitraApi.Controllers
         IMapper mapper
         ) : ControllerBase
     {
-        private readonly List<PublicacionGetDto> _products = new List<PublicacionGetDto> { };
+        
         private readonly IPublicationServices _PublicationServices = PublicationServices;
         private readonly IPublicationRepository _publicationRepository = publicationRepository;
         private readonly IMapper _mapper = mapper;
-        
 
-        [HttpPost]
+        [HttpPost("create")]
+        public async Task<ActionResult> CreatePublication([FromForm] PublicationPostDto publication, IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("Debe proporcionar un archivo.");
+            }
+
+            await _PublicationServices.SavePublicationAsync(publication, file); 
+
+            return StatusCode(201, "Publicación creada con éxito.");
+        }
+
+        
+        [HttpPost("Presencial")]
         [Authorize]
         public async Task<ActionResult<ResponseObjectJsonDto>> RegisterPublication(PublicationPostDto Creationpublication)
         {
@@ -64,7 +79,6 @@ namespace LlamitraApi.Controllers
             }
 
         }
-
         [HttpGet]
         public async Task<ActionResult<ResponseObjectJsonDto>> GetAll()
         {
@@ -78,7 +92,6 @@ namespace LlamitraApi.Controllers
                     {
                         Code = (int)CodeHttp.NOTFOUND,
                         Message = "No se encontró una publicacion.",
-                        Response = null
                     };
                     //throw new($"No se encontró una publicacion.");
                 }
@@ -98,7 +111,7 @@ namespace LlamitraApi.Controllers
                 return StatusCode(500, $"Error al registrar la publicacion: {ex.Message}, tu error no esta dentro de los errores validados");
             }
         }
-        [HttpGet("/RandomList")]
+        [HttpGet("RandomList")]
         public async Task<ActionResult<ResponseObjectJsonDto>> GetRandomList()
         {
             try
@@ -113,7 +126,6 @@ namespace LlamitraApi.Controllers
                         Message = "No se encontró una publicacion.",
                         Response = null
                     };
-                    //throw new($"No se encontró una publicacion.");
                 }
 
                 else
@@ -148,8 +160,6 @@ namespace LlamitraApi.Controllers
                         Message = "Reclamo no encontrado.",
                         Response = null
                     };
-                    //Log.Error($"Claim not found, while handling GetClaimByIdQuery, with ID: {request.Id}");
-                    //throw new NotFoundException($"No se encontró un reclamo con el ID: {request.Id}");
                 }
                 else
                 {
@@ -186,7 +196,6 @@ namespace LlamitraApi.Controllers
                         Message = "no se encontro esa publicacion",
                         Response = null
                     };
-                    //return NotFound($"No se obtuvo resultado con el id: {id}");
                 }
                 else
                 {
@@ -197,8 +206,6 @@ namespace LlamitraApi.Controllers
                         Response = publicationDelete
                     };
                 }
-                //await _PublicationServices.DeletePublication(publicationDelete);
-                //return Ok("La publicacion se elimino con exito");
             }
             catch (Exception ex)
             {

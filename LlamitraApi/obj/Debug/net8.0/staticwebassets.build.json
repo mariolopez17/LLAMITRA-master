@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "epVHcE97ECcK5FTGnC8LTGKLfwD0O9Wb3RJMjzDdgDE=",
+  "Hash": "6QZycivTcE1zwpBm2X2YfF7QPOrg13c9R3rBZESlXgA=",
   "Source": "LlamitraApi",
   "BasePath": "_content/LlamitraApi",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "LlamitraApi\\wwwroot",
+      "Source": "LlamitraApi",
+      "ContentRoot": "C:\\Users\\mlopez\\Desktop\\Llamitra_actual\\LLAMITRA-master\\LlamitraApi\\wwwroot\\",
+      "BasePath": "_content/LlamitraApi",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }

@@ -15,8 +15,6 @@ namespace LlamitraApi.Services
             _config = config;
         }
 
-
-
         public void SendEmail(EmailDTO request)
         {
             var email = new MimeMessage();

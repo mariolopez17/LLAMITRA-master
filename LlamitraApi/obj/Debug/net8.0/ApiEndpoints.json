@@ -79,32 +79,6 @@
   },
   {
     "ContainingType": "LlamitraApi.Controllers.PublicationController",
-    "Method": "RegisterPublication",
-    "RelativePath": "publication",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "Creationpublication",
-        "Type": "LlamitraApi.Models.Dtos.CourseDtos.PublicationPostDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "LlamitraApi.Commons.ResponseObjectJsonDto",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "LlamitraApi.Controllers.PublicationController",
     "Method": "GetAll",
     "RelativePath": "publication",
     "HttpMethod": "GET",
@@ -177,8 +151,85 @@
   },
   {
     "ContainingType": "LlamitraApi.Controllers.PublicationController",
+    "Method": "CreatePublication",
+    "RelativePath": "publication/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "IdType",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "IdUser",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Professor",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Price",
+        "Type": "System.Decimal",
+        "IsRequired": false
+      },
+      {
+        "Name": "Title",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Description",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FileContent",
+        "Type": "System.Byte[]",
+        "IsRequired": false
+      },
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LlamitraApi.Controllers.PublicationController",
+    "Method": "RegisterPublication",
+    "RelativePath": "publication/Presencial",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Creationpublication",
+        "Type": "LlamitraApi.Models.Dtos.CourseDtos.PublicationPostDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "LlamitraApi.Commons.ResponseObjectJsonDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LlamitraApi.Controllers.PublicationController",
     "Method": "GetRandomList",
-    "RelativePath": "RandomList",
+    "RelativePath": "publication/RandomList",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

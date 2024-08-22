@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace LlamitraApi.Models.Dtos.CourseDtos
@@ -23,7 +24,7 @@ namespace LlamitraApi.Models.Dtos.CourseDtos
 
         [Required(ErrorMessage = "El nombre del profesor es obligatorio.")]
         [StringLength(20, ErrorMessage = "El nombre del profesor no puede superar los 20 caracteres.")]
-        [RegularExpression(@"^[a-zA-Z\@]+$", ErrorMessage = "El Nombre del profesor solo debe contener letras")]
+        [RegularExpression(@"^[a-zA-Z@ ]+$", ErrorMessage = "El Nombre del profesor solo debe contener letras")]
         [JsonPropertyName("Profesor")]
         public string Professor { get; set; }
 
@@ -45,29 +46,7 @@ namespace LlamitraApi.Models.Dtos.CourseDtos
         [StringLength(400, ErrorMessage = "La descripción no puede superar los 400 caracteres.")]
         [JsonPropertyName("Descripción")]
         public string Description { get; set; }
-
-        
-        [Required(ErrorMessage = "La URL es obligatoria.")]
-        [Url(ErrorMessage = "La URL debe ser válida.")]
-        [Youtube]
-        [JsonPropertyName("Url")]
-        public string Url { get; set; }
-    }
-   
-}
-public class Youtube : ValidationAttribute
-{
-    public Youtube() : base("La URL no es valida")
-    {
-    }
-
-    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-    {
-        if (value == null || value is not string url || !url.Contains("."))
-        {
-            return new ValidationResult(ErrorMessage);
-        }
-
-        return ValidationResult.Success;
+        [JsonIgnore]
+        public byte[] FileContent { get; set; }
     }
 }

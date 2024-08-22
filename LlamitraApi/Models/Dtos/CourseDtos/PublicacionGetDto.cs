@@ -47,8 +47,8 @@ namespace LlamitraApi.Models.Dtos.CourseDtos
 
         [Required(ErrorMessage = "La URL es obligatoria.")]
         [Url(ErrorMessage = "La URL debe ser válida.")]
-        [Youtube]
         [JsonPropertyName("url")]
-        public string Url { get; set; }
+        //public IFormFile Path { get; set; }
+        public byte[] FileContent { get; set; }
     }
 }

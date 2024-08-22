@@ -33,17 +33,6 @@ namespace LlamitraApi.Services
             _mapper.Map(publicationstype, publicationsTypeDtos);
 
             return publicationsTypeDtos;
-            //return await _PublicationTypeRepository.GetAllPublicationType();
         }
-        /*public async Task<List<PublicationTypePostDto>> GetAll()
-        {
-            var publicationsTypeDtos = new List<PublicationTypePostDto>();
-            var publicationstype = await _PublicationTypeRepository.GetAllPublicationType();
-
-            _mapper.Map(publicationstype, publicationsTypeDtos);
-
-            return publicationsTypeDtos;
-            //return await _PublicationTypeRepository.GetAllPublicationType();
-        }*/
     }
 }
