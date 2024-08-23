@@ -2,5 +2,4 @@
 
 POST {{LlamitraApi_HostAddress}}/api/PublicationType/
 Accept: application/json
-Authorization: 
 

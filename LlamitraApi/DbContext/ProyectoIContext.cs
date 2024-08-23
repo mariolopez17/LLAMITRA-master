@@ -145,7 +145,7 @@ public partial class ProyectoIContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("name");
             entity.Property(e => e.Password)
-                .HasMaxLength(30)
+                .HasMaxLength(200)
                 .IsUnicode(false)
                 .HasColumnName("password");
 

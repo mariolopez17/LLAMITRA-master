@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using LlamitraApi.Helpers.Metodos;
 using LlamitraApi.Models;
 using LlamitraApi.Models.Dtos.CourseDtos;
 using LlamitraApi.Models.Dtos.UserDtos;
 using LlamitraApi.Repository;
 using LlamitraApi.Repository.IRepository;
 using LlamitraApi.Services.IServices;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace LlamitraApi.Services
 {
@@ -12,6 +15,7 @@ namespace LlamitraApi.Services
     {
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IMapper _mapper = mapper;
+        
         public async Task CreateUser(UserPostDto userPost)
         {
             var user = new User
@@ -20,12 +24,10 @@ namespace LlamitraApi.Services
                 Lastname = userPost.LastName,
                 Mail = userPost.Mail,
                 IdRol = userPost.IdRol,
-                Password = userPost.Password
+                Password = Encrypt.GetSHA256(userPost.Password)
             };
-            
             await _userRepository.AddUser(user);
         }
-
         public async Task<User> CheckMailUser(string email)
         {
             return await _userRepository.CheckUser(email);

@@ -3,7 +3,6 @@ using LlamitraApi.Commons;
 using LlamitraApi.Commons.Enum;
 using LlamitraApi.Models;
 using LlamitraApi.Models.Dtos.CourseDtos;
-using LlamitraApi.Models.Metodo;
 using LlamitraApi.Repository;
 using LlamitraApi.Repository.IRepository;
 using LlamitraApi.Services;
