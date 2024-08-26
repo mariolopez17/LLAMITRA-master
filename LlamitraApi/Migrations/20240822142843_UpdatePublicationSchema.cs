@@ -10,17 +10,17 @@ namespace LlamitraApi.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Publication_PublicationTypes_IdTypeNavigationIdType",
-                table: "Publication");
+            //migrationBuilder.DropForeignKey(
+            //    name: "FK_Publication_PublicationTypes_IdTypeNavigationIdType",
+            //    table: "Publication");
 
-            migrationBuilder.DropIndex(
-                name: "IX_Publication_IdTypeNavigationIdType",
-                table: "Publication");
+            //migrationBuilder.DropIndex(
+            //    name: "IX_Publication_IdTypeNavigationIdType",
+            //    table: "Publication");
 
-            migrationBuilder.DropColumn(
-                name: "IdTypeNavigationIdType",
-                table: "Publication");
+            //migrationBuilder.DropColumn(
+            //    name: "IdTypeNavigationIdType",
+            //    table: "Publication");
 
             migrationBuilder.DropColumn(
                 name: "url",
@@ -38,18 +38,18 @@ namespace LlamitraApi.Migrations
                 type: "nvarchar(max)",
                 nullable: true);
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Publication_idType",
-                table: "Publication",
-                column: "idType");
+            //migrationBuilder.CreateIndex(
+            //    name: "IX_Publication_idType",
+            //    table: "Publication",
+            //    column: "idType");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Publications_IdType",
-                table: "Publication",
-                column: "idType",
-                principalTable: "PublicationTypes",
-                principalColumn: "idPublicationType",
-                onDelete: ReferentialAction.Cascade);
+            //migrationBuilder.AddForeignKey(
+            //    name: "FK_Publications_IdType",
+            //    table: "Publication",
+            //    column: "idType",
+            //    principalTable: "PublicationTypes",
+            //    principalColumn: "idPublicationType",
+            //    onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
