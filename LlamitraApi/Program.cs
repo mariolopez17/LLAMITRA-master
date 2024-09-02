@@ -12,6 +12,17 @@ using MimeKit;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+// Add cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder => builder.WithOrigins("http://localhost:4200")
+                          .AllowAnyMethod()
+                          .AllowAnyHeader());
+});
+
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -127,6 +138,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowSpecificOrigin");
 
 app.UseHttpsRedirection();
 

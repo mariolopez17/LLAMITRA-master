@@ -6,6 +6,22 @@
 # dotenv files
 .env
 
+# Ignorar el directorio obj
+LlamitraApi/obj/
+
+# Ignorar el directorio bin
+LlamitraApi/bin/
+
+# Archivos generados por NuGet
+LlamitraApi/*.csproj.user
+LlamitraApi/*.csproj.nuget.g.props
+LlamitraApi/*.csproj.nuget.g.targets
+LlamitraApi/*.csproj.nuget.dgspec.json
+LlamitraApi/*.csproj.nuget.g.targets
+LlamitraApi/project.assets.json
+LlamitraApi/project.nuget.cache
+
+
 # User-specific files
 *.rsuser
 *.suo
