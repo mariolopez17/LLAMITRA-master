@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using LlamitraApi.Services.IServices;
 using System.Linq.Expressions;
 using LlamitraApi.Models.Dtos.UserDtos;
+using LlamitraApi.Helpers.Metodos;
 
 namespace LlamitraApi.Services
 {
@@ -51,7 +52,7 @@ namespace LlamitraApi.Services
         {
             var usuario_encontrado = _proyectoIContext.Users.FirstOrDefault(x =>
             x.Mail == authorizacion.Mail &&
-            x.Password == authorizacion.Password 
+            x.Password == Encrypt.GetSHA256(authorizacion.Password)
             );
 
             if(usuario_encontrado == null)
