@@ -8,8 +8,8 @@ public partial class ProyectoIContext : DbContext
 {
     public ProyectoIContext()
     {
-    }
 
+    }
     public ProyectoIContext(DbContextOptions<ProyectoIContext> options)
         : base(options)
     {
