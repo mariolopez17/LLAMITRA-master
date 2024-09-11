@@ -8,5 +8,6 @@ namespace LlamitraApi.Services.IServices
     {
         Task<AuthorizacionResponse> DevolverToken(LoginDto authorizacion);
 
+        Task<AuthorizacionResponse> DevolverRefreshToken(RefreshTokenRequest refreshTokenRequest, int idUser);
     }
 }

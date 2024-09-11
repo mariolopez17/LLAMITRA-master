@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 using LlamitraApi.Models.Custom;
 using LlamitraApi.Services;
 using LlamitraApi.Services.IServices;
 using LlamitraApi.Models.Dtos.UserDtos;
 using LlamitraApi.Models;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LlamitraApi.Controllers
 {
@@ -18,6 +20,7 @@ namespace LlamitraApi.Controllers
         {
             _authorizacionService = authorizacionService;
         }
+        
         [HttpPost]
         [Route("Autenticar")]
         public async Task<IActionResult> authenticate([FromBody] LoginDto authorizacion)
@@ -26,9 +29,33 @@ namespace LlamitraApi.Controllers
             if(result_authorizacion == null)
             {
                 return Unauthorized();
-            }else
+            }
+            
+            return Ok(result_authorizacion);
+            
+        }
+        [HttpPost]
+        [Route("ObtenerRefreshToken")]
+        public async Task<IActionResult> ObtenerRefreshToken([FromBody] RefreshTokenRequest request)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var TokenExpiredsupposedly = tokenHandler.ReadJwtToken(request.TokenExpirado);
+
+            if (TokenExpiredsupposedly.ValidTo > DateTime.UtcNow)
+                return BadRequest(new AuthorizacionResponse { Resultado = false, Msg = "El token no a expirado" });
+
+            string idUser = TokenExpiredsupposedly.Claims.First(x=>
+            x.Type == JwtRegisteredClaimNames.NameId).Value.ToString();
+
+            var autorizacionResponse = await _authorizacionService.DevolverRefreshToken(request, int.Parse(idUser));
+
+            if (autorizacionResponse.Resultado)
             {
-                return Ok(result_authorizacion);
+                return Ok(autorizacionResponse);
+            }
+            else
+            {
+                return BadRequest(autorizacionResponse);
             }
         }
     }

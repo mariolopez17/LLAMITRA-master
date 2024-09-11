@@ -17,15 +17,9 @@ public partial class ProyectoIContext : DbContext
     }
     public virtual DbSet<PublicationType> PublicationTypes { get; set; }
     public virtual DbSet<Publication> Publications { get; set; }
-    //public virtual DbSet<InLive> InLives { get; set; }
-
-    //public virtual DbSet<Presential> Presentials { get; set; }
-
+    public virtual DbSet<HistorialRefreshToken> HistorialRefreshTokens { get; set; }
     public virtual DbSet<Role> Roles { get; set; }
-    //public virtual DbSet<userLogin> UserLogins {get; set;}
     public virtual DbSet<User> Users { get; set; }
-
-    //public virtual DbSet<Video> Videos { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -63,6 +57,26 @@ public partial class ProyectoIContext : DbContext
                 .HasColumnName("url");
         });*/
         #endregion
+        modelBuilder.Entity<HistorialRefreshToken>(entity =>
+        {
+            entity.HasKey(e => e.IdHistorialToken).HasName("PK__Historia__03DC48A5BDFD22AD");
+
+            entity.ToTable("HistorialRefreshToken");
+
+            entity.Property(e => e.IsActive).HasComputedColumnSql("(case when [ExpiratedAt]<getdate() then CONVERT([bit],(0)) else CONVERT([bit],(1)) end)", false);
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.ExpiratedAt).HasColumnType("datetime");
+            entity.Property(e => e.RefreshToken)
+                .HasMaxLength(200)
+                .IsUnicode(false);
+            entity.Property(e => e.Token)
+                .HasMaxLength(500)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.IdUserNavigation).WithMany(p => p.HistorialRefreshTokens)
+                .HasForeignKey(d => d.IdUser)
+                .HasConstraintName("FK__Historial__IdUsu__24927208");
+        });
         modelBuilder.Entity<PublicationType>(entity =>
         {
             entity.HasKey(e => e.IdType).HasName("PK_idPublicationType");

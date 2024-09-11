@@ -9,6 +9,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using MimeKit;
+using System.Security.Claims;
+using LlamitraApi.Commons.Enum;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -92,29 +94,14 @@ builder.Services.AddAuthentication(config =>
     };
 });
 
-
-
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("admin", policy => policy.RequireClaim(ClaimTypes.Role, Roles.admin.ToString()));
+    options.AddPolicy("professor", policy => policy.RequireClaim(ClaimTypes.Role, Roles.professor.ToString()));
+    options.AddPolicy("user", policy => policy.RequireClaim(ClaimTypes.Role, Roles.user.ToString()));
+});
 builder.Configuration.AddJsonFile("appsettings.json");
-/*var secretKey = builder.Configuration.GetSection("settings").GetSection("secretKey").ToString();
-var KeyBytess = Encoding.UTF8.GetBytes(secretKey);
 
-builder.Services.AddAuthentication(config =>
-{
-    config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
-}).AddJwtBearer(config =>
-{
-    config.RequireHttpsMetadata = false;
-    config.SaveToken = true;
-    config.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(KeyBytess),
-        ValidateIssuer = false,
-        ValidateAudience = false
-    };
-}); */
 
 
 builder.Services.AddScoped<IUserServices, UserServices>();

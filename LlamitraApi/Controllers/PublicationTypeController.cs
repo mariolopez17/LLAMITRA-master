@@ -16,7 +16,7 @@ namespace LlamitraApi.Controllers
     public class PublicationTypeController(IPublicationTypeServices TypeService) : ControllerBase 
     {
         public readonly IPublicationTypeServices _TypeService = TypeService;
-
+        [Authorize(Policy = "admin")]
         [HttpPost]
         [Authorize]
         public async Task<ActionResult<ResponseObjectJsonDto>> RegisterPublicationType(PublicationTypePostDto publicationTypeDto)
