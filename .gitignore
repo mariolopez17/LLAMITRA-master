@@ -3,6 +3,11 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+# Archivos generados por la compilación
+/LlamitraApi/bin/
+/LlamitraApi/obj/
+
+
 # dotenv files
 .env
 

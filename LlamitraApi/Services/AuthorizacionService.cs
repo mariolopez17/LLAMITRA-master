@@ -10,6 +10,7 @@ using LlamitraApi.Services.IServices;
 using System.Linq.Expressions;
 using LlamitraApi.Models.Dtos.UserDtos;
 using LlamitraApi.Helpers.Metodos;
+using System.Security.Cryptography;
 
 namespace LlamitraApi.Services
 {
@@ -24,13 +25,14 @@ namespace LlamitraApi.Services
             _proyectoIContext = proyectoIContext;
         }
 
-        private string GenerarToken(string idUsuario)
+        private string GenerarToken(string idUsuario, Claim[] claimsToAdd)
         {
             var Key = _configuration.GetValue<string>("JwtSettings:Key");
             var KeyBytes = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key));
 
             var claims = new ClaimsIdentity();
-            claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, idUsuario));
+            claims.AddClaims(claimsToAdd);
+            
 
             var credencialsTokens = new SigningCredentials(KeyBytes,SecurityAlgorithms.HmacSha256);
 
@@ -47,7 +49,38 @@ namespace LlamitraApi.Services
             string tokenCreado = tokenHandler.WriteToken(tokenConfig);
             return tokenCreado;
         }
+        private string GenerarRefreshToken()
+        {
+            var byteArray = new byte[64];
+            var refreshToken = "";
 
+            using(var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(byteArray);
+                refreshToken= Convert.ToBase64String(byteArray);
+            }
+            return refreshToken;
+        }
+
+        private async Task<AuthorizacionResponse> GuardarHistorialRefreshToken(
+            int idUsuario,
+            string token,
+            string refreshToken
+            )
+        {
+            var historialRefreshToken = new HistorialRefreshToken
+            {
+                IdUser = idUsuario,
+                Token = token,
+                RefreshToken = refreshToken,
+                CreatedAt = DateTime.UtcNow,
+                ExpiratedAt = DateTime.UtcNow.AddMinutes(2)
+            };
+            await _proyectoIContext.HistorialRefreshTokens.AddAsync(historialRefreshToken);
+            await _proyectoIContext.SaveChangesAsync();
+
+            return new AuthorizacionResponse { Token =token,RefreshToken=refreshToken,Resultado=true,Msg="OK" };
+        }
         public async Task<AuthorizacionResponse> DevolverToken(LoginDto authorizacion)
         {
             var usuario_encontrado = _proyectoIContext.Users.FirstOrDefault(x =>
@@ -55,14 +88,48 @@ namespace LlamitraApi.Services
             x.Password == Encrypt.GetSHA256(authorizacion.Password)
             );
 
-            if(usuario_encontrado == null)
+            if (usuario_encontrado == null)
             {
                 return await Task.FromResult<AuthorizacionResponse>(null);
             }
 
-            string tokenCreado = GenerarToken(usuario_encontrado.IdUser.ToString());
+            var rol_encontrado = _proyectoIContext.Roles.FirstOrDefault(x => x.IdRol == usuario_encontrado.IdRol);
+            if (rol_encontrado == null) return await Task.FromResult<AuthorizacionResponse>(null);
 
-            return new AuthorizacionResponse() { Token = tokenCreado, Resultado= true, Msg= "Ok" };
+
+            var claims = new[]
+            {
+                   new Claim( ClaimTypes.Role, rol_encontrado.Name ),
+                   new Claim(ClaimTypes.NameIdentifier, usuario_encontrado.IdUser.ToString() ),
+            };
+
+            string tokenCreado = GenerarToken(usuario_encontrado.IdUser.ToString(),claims);
+
+            string refreshTokenCreated = GenerarRefreshToken();
+
+            return await GuardarHistorialRefreshToken(usuario_encontrado.IdUser,tokenCreado,refreshTokenCreated);
+        }
+        public async Task<AuthorizacionResponse> DevolverRefreshToken(RefreshTokenRequest refreshTokenRequest, int idUser)
+        {
+            var refreshTokenEncontrado = _proyectoIContext.HistorialRefreshTokens.FirstOrDefault(x =>
+            x.Token == refreshTokenRequest.TokenExpirado &&
+            x.Token == refreshTokenRequest.RefreshToken &&
+            x.IdUser == idUser);
+
+            if (refreshTokenEncontrado == null)
+            {
+                return new AuthorizacionResponse { Resultado = false, Msg = "No existe un RefreshToken" };
+            }
+
+            var claims = new[] 
+            {
+                   new Claim(ClaimTypes.NameIdentifier, idUser.ToString()),
+            };
+
+            var refreshTokenCreated = GenerarRefreshToken();
+            var tokenCreated = GenerarToken(idUser.ToString(), claims);
+
+            return await GuardarHistorialRefreshToken(idUser, tokenCreated, refreshTokenCreated);
         }
     }
 }
