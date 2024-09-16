@@ -11,11 +11,11 @@ using System.Text;
 
 namespace LlamitraApi.Services
 {
-    public class UserServices(IUserRepository userRepository, IMapper mapper) : IUserServices
+    public class UserServices(IUserRepository userRepository, IMapper mapper, IEmailServices emailService) : IUserServices
     {
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IMapper _mapper = mapper;
-        
+        private readonly IEmailServices _emailService= emailService;
         public async Task CreateUser(UserPostDto userPost)
         {
             var user = new User
@@ -27,6 +27,15 @@ namespace LlamitraApi.Services
                 Password = Encrypt.GetSHA256(userPost.Password)
             };
             await _userRepository.AddUser(user);
+        
+            var emailRequest = new EmailDTO
+            {
+            Para = userPost.Mail,
+            Asunto = "Confirmación de Registro",
+            Contenido = "Gracias por registrarte en nuestra aplicación. ¡Bienvenido!"
+            };
+
+            _emailService.SendEmail(emailRequest);
         }
         public async Task<User> CheckMailUser(string email)
         {
