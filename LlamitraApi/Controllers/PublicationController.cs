@@ -31,7 +31,7 @@ namespace LlamitraApi.Controllers
         private readonly IPublicationRepository _publicationRepository = publicationRepository;
         private readonly IMapper _mapper = mapper;
 
-        [HttpPost("create")]
+        [HttpPost]
         public async Task<ActionResult> CreatePublication([FromForm] PublicationPostDto publication, IFormFile file)
         {
             if (file == null || file.Length == 0)
@@ -45,7 +45,7 @@ namespace LlamitraApi.Controllers
         }
 
         
-        [HttpPost("Presencial")]
+        [HttpPost("presencial")]
         [Authorize]
         public async Task<ActionResult<ResponseObjectJsonDto>> RegisterPublication(PublicationPostDto Creationpublication)
         {
@@ -92,7 +92,6 @@ namespace LlamitraApi.Controllers
                         Code = (int)CodeHttp.NOTFOUND,
                         Message = "No se encontró una publicacion.",
                     };
-                    //throw new($"No se encontró una publicacion.");
                 }
 
                 else
@@ -110,7 +109,7 @@ namespace LlamitraApi.Controllers
                 return StatusCode(500, $"Error al registrar la publicacion: {ex.Message}, tu error no esta dentro de los errores validados");
             }
         }
-        [HttpGet("RandomList")]
+        [HttpGet("random-list")]
         public async Task<ActionResult<ResponseObjectJsonDto>> GetRandomList()
         {
             try

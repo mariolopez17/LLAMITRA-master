@@ -22,7 +22,7 @@ namespace LlamitraApi.Controllers
         }
         
         [HttpPost]
-        [Route("Autenticar")]
+        [Route("/authenticate")]
         public async Task<IActionResult> authenticate([FromBody] LoginDto authorizacion)
         {
             var result_authorizacion = await _authorizacionService.DevolverToken(authorizacion);
@@ -35,7 +35,7 @@ namespace LlamitraApi.Controllers
             
         }
         [HttpPost]
-        [Route("ObtenerRefreshToken")]
+        [Route("/get-refresh-token")]
         public async Task<IActionResult> ObtenerRefreshToken([FromBody] RefreshTokenRequest request)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

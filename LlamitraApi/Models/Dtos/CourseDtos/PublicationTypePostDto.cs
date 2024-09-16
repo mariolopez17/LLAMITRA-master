@@ -8,7 +8,7 @@ namespace LlamitraApi.Models.Dtos.CourseDtos
         [Required(ErrorMessage = "El nombre es obligatorio.")]
         [RegularExpression(@"^[a-zA-Z\@]+$", ErrorMessage = "El Nombre solo debe contener letras.")]
         [StringLength(20, MinimumLength = 1, ErrorMessage = "El Nombre debe tener entre 1 y 20 caracteres como maximo.")]
-        [JsonPropertyName("Nombre")]
+        
         public string Name { get; set; }
     }
 }

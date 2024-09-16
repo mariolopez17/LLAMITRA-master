@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace LlamitraApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("email")]
     [ApiController]
     [Authorize]
     public class EmailController : ControllerBase

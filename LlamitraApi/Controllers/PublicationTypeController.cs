@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LlamitraApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("publication-type")]
     [ApiController]
     //[Authorize]
     public class PublicationTypeController(IPublicationTypeServices TypeService) : ControllerBase 
@@ -47,7 +47,7 @@ namespace LlamitraApi.Controllers
                 return StatusCode(500, $"Error al registrar el usuario: {ex.Message}, tu error no esta dentro de los errores validados");
             }
         }
-        [HttpGet("")]
+        [HttpGet()]
         public async Task<ActionResult<ResponseObjectJsonDto>> GetAll()
         {
             try
