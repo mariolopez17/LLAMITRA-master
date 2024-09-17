@@ -22,7 +22,7 @@ namespace LlamitraApi.Controllers
         }
         
         [HttpPost]
-        [Route("/api/authenticate")]
+        [Route("/api/login")]
         public async Task<IActionResult> authenticate([FromBody] LoginDto authorizacion)
         {
             var result_authorizacion = await _authorizacionService.DevolverToken(authorizacion);
