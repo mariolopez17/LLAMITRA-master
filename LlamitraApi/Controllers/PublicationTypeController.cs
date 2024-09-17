@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LlamitraApi.Controllers
 {
-    [Route("publication-type")]
+    [Route("/api/publication-type")]
     [ApiController]
     //[Authorize]
     public class PublicationTypeController(IPublicationTypeServices TypeService) : ControllerBase 

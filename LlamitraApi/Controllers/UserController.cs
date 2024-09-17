@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace LlamitraApi.Controllers
 {
     [ApiController]
-    [Route("/user")]
+    [Route("/api/user")]
     //TODO mover el post de RegisterUser a authentication  y crear un LoginUser en authentication 
     public class UserController(IUserServices usuarioService) : ControllerBase
     {
@@ -34,7 +34,7 @@ namespace LlamitraApi.Controllers
                 return StatusCode(500, $"Error al registrar el usuario: {ex.Message}, tu error no esta dentro de los errores validados");
             }
         }
-        [HttpGet("/user")]
+        [HttpGet("/api/user")]
         [Authorize]
         public async Task<ActionResult<ResponseObjectJsonDto>> GetAll()
         {

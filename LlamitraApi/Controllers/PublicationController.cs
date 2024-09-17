@@ -17,8 +17,7 @@ using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 namespace LlamitraApi.Controllers
 {
     [ApiController]
-    [Route("/publication")]
-    //[Authorize(Roles = "Admin")]
+    [Route("/api/publication")]
 
     public class PublicationController(
         IPublicationServices PublicationServices,
