@@ -16,9 +16,9 @@ namespace LlamitraApi.Controllers
     public class PublicationTypeController(IPublicationTypeServices TypeService) : ControllerBase 
     {
         public readonly IPublicationTypeServices _TypeService = TypeService;
-        [Authorize(Policy = "admin")]
+        
         [HttpPost]
-        [Authorize]
+        [Authorize(Policy = "profesor")]
         public async Task<ActionResult<ResponseObjectJsonDto>> RegisterPublicationType(PublicationTypePostDto publicationTypeDto)
         {
             try
@@ -41,6 +41,15 @@ namespace LlamitraApi.Controllers
                         Response = publicationTypeDto
                     };
                 }            
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return new ResponseObjectJsonDto()
+                {
+                    Code = (int)CodeHttp.FORBIDDEN,
+                    Message = "No tienes acceso porque no eres profesor.",
+                    Response = null
+                };
             }
             catch (Exception ex)
             {

@@ -35,7 +35,7 @@ namespace LlamitraApi.Controllers
             }
         }
         [HttpGet("/api/user")]
-        [Authorize]
+        [Authorize(Policy = "profesor")]
         public async Task<ActionResult<ResponseObjectJsonDto>> GetAll()
         {
             try
@@ -59,7 +59,15 @@ namespace LlamitraApi.Controllers
                         Response = publicationTypeDto
                     };
                 }
-                //return Ok(publicationTypeDto);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return new ResponseObjectJsonDto()
+                {
+                    Code = (int)CodeHttp.FORBIDDEN,
+                    Message = "No tienes acceso porque no eres profesor.",
+                    Response = null
+                };
             }
             catch (Exception ex)
             {
@@ -68,13 +76,22 @@ namespace LlamitraApi.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
-        public async Task<IActionResult> GetUserById(int id)
+        [Authorize(Policy = "profesor")]
+        public async Task<ActionResult<ResponseObjectJsonDto>> GetUserById(int id)
         {
             try
             {
                 var inLives = await _userService.GetByIdUser(id);
                 return Ok(inLives);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return new ResponseObjectJsonDto()
+                {
+                    Code = (int)CodeHttp.FORBIDDEN,
+                    Message = "No tienes acceso porque no eres profesor.",
+                    Response = null
+                };
             }
             catch (Exception ex)
             {

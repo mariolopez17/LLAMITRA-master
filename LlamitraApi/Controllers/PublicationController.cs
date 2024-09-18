@@ -30,22 +30,36 @@ namespace LlamitraApi.Controllers
         private readonly IPublicationRepository _publicationRepository = publicationRepository;
         private readonly IMapper _mapper = mapper;
 
+        
         [HttpPost]
-        public async Task<ActionResult> CreatePublication([FromForm] PublicationPostDto publication, IFormFile file)
+        [Authorize(Policy = "profesor")]
+        public async Task<ActionResult<ResponseObjectJsonDto>> CreatePublication([FromForm] PublicationPostDto publication, IFormFile file)
         {
-            if (file == null || file.Length == 0)
+            try
             {
-                return BadRequest("Debe proporcionar un archivo.");
+                if (file == null || file.Length == 0)
+                {
+                    return BadRequest("Debe proporcionar un archivo.");
+                }
+
+                await _PublicationServices.SavePublicationAsync(publication, file);
+
+                return StatusCode(201, "Publicación creada con éxito.");
             }
-
-            await _PublicationServices.SavePublicationAsync(publication, file); 
-
-            return StatusCode(201, "Publicación creada con éxito.");
+            catch (UnauthorizedAccessException)
+            {
+                return new ResponseObjectJsonDto()
+                {
+                    Code = (int)CodeHttp.FORBIDDEN,
+                    Message = "No tienes acceso porque no eres profesor.",
+                    Response = null
+                };
+            }
         }
 
         
         [HttpPost("presencial")]
-        [Authorize]
+        [Authorize(Policy = "profesor")]
         public async Task<ActionResult<ResponseObjectJsonDto>> RegisterPublication(PublicationPostDto Creationpublication)
         {
             try
@@ -70,6 +84,15 @@ namespace LlamitraApi.Controllers
                     };
                 }
 
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return new ResponseObjectJsonDto()
+                {
+                    Code = (int)CodeHttp.FORBIDDEN,
+                    Message = "No tienes acceso porque no eres profesor.",
+                    Response = null
+                };
             }
             catch (Exception ex)
             {
@@ -177,7 +200,7 @@ namespace LlamitraApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
+        [Authorize(Policy = "profesor")]
 
         public async Task<ActionResult<ResponseObjectJsonDto>> Delete([FromRoute] int id)
         {
@@ -203,6 +226,15 @@ namespace LlamitraApi.Controllers
                         Response = publicationDelete
                     };
                 }
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return new ResponseObjectJsonDto()
+                {
+                    Code = (int)CodeHttp.FORBIDDEN,
+                    Message = "No tienes acceso porque no eres profesor.",
+                    Response = null
+                };
             }
             catch (Exception ex)
             {
