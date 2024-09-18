@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace LlamitraApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     [ApiController]
     public class UserAuthController : ControllerBase
     {
@@ -20,7 +20,19 @@ namespace LlamitraApi.Controllers
         {
             _authorizacionService = authorizacionService;
         }
-        
+        [HttpGet("my-data")]
+        public async Task<IActionResult> GetMe()
+        {
+            var token = Request.Headers["Authorization"].ToString().Split(" ").Last();
+            var userData = await _authorizacionService.ObtenerDatosUsuario(token);
+
+            if (userData == null)
+            {
+                return Unauthorized();
+            }
+
+            return Ok(userData);
+        }
         [HttpPost]
         [Route("/api/login")]
         public async Task<IActionResult> authenticate([FromBody] LoginDto authorizacion)

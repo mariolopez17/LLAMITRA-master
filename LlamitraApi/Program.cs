@@ -96,9 +96,9 @@ builder.Services.AddAuthentication(config =>
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("admin", policy => policy.RequireClaim(ClaimTypes.Role, Roles.admin.ToString()));
-    options.AddPolicy("professor", policy => policy.RequireClaim(ClaimTypes.Role, Roles.professor.ToString()));
-    options.AddPolicy("user", policy => policy.RequireClaim(ClaimTypes.Role, Roles.user.ToString()));
+    options.AddPolicy("administrador", policy => policy.RequireClaim(ClaimTypes.Role, Roles.administrador.ToString()));
+    options.AddPolicy("profesor", policy => policy.RequireClaim(ClaimTypes.Role, Roles.profesor.ToString()));
+    options.AddPolicy("usuario", policy => policy.RequireClaim(ClaimTypes.Role, Roles.usuario.ToString()));
 });
 builder.Configuration.AddJsonFile("appsettings.json");
 

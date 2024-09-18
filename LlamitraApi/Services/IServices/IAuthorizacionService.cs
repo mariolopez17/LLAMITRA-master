@@ -1,4 +1,5 @@
-﻿using LlamitraApi.Models;
+﻿using LlamitraApi.Dtos;
+using LlamitraApi.Models;
 using LlamitraApi.Models.Custom;
 using LlamitraApi.Models.Dtos.UserDtos;
 
@@ -9,5 +10,6 @@ namespace LlamitraApi.Services.IServices
         Task<AuthorizacionResponse> DevolverToken(LoginDto authorizacion);
 
         Task<AuthorizacionResponse> DevolverRefreshToken(RefreshTokenRequest refreshTokenRequest, int idUser);
+        Task<UserDataDto> ObtenerDatosUsuario(string token); 
     }
 }

@@ -11,6 +11,9 @@ using System.Linq.Expressions;
 using LlamitraApi.Models.Dtos.UserDtos;
 using LlamitraApi.Helpers.Metodos;
 using System.Security.Cryptography;
+using Microsoft.EntityFrameworkCore;
+using LlamitraApi.Dtos;
+using LlamitraApi.Commons.Enum;
 
 namespace LlamitraApi.Services
 {
@@ -130,6 +133,61 @@ namespace LlamitraApi.Services
             var tokenCreated = GenerarToken(idUser.ToString(), claims);
 
             return await GuardarHistorialRefreshToken(idUser, tokenCreated, refreshTokenCreated);
+        }
+        private ClaimsPrincipal ValidarToken(string token)
+        {
+            var key = _configuration.GetValue<string>("JwtSettings:Key");
+            var keyBytes = Encoding.UTF8.GetBytes(key);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var validationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = true
+            };
+
+            try
+            {
+                var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
+                return principal;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<UserDataDto> ObtenerDatosUsuario(string token)
+        {
+            var principal = ValidarToken(token);
+
+            if (principal == null)
+            {
+                return null;
+            }
+
+            var idUsuario = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var usuario = await _proyectoIContext.Users.FirstOrDefaultAsync(x => x.IdUser.ToString() == idUsuario);
+
+            if (usuario == null)
+            {
+                return null;
+            }
+            
+            Roles rol = (Roles)usuario.IdRol;
+            var rolNombre = rol.ToString();
+
+            var userData = new UserDataDto
+            {
+                Id = usuario.IdUser,
+                Name = usuario.Name,
+                Email = usuario.Mail,
+                Role = rolNombre,
+            };
+
+            return userData;
         }
     }
 }
