@@ -103,13 +103,14 @@ builder.Services.AddAuthorization(options =>
 builder.Configuration.AddJsonFile("appsettings.json");
 
 
-
+builder.Services.AddScoped<IStartRatingService, StartRatingService>();
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<IAuthorizacionService, AuthorizacionService>();
 builder.Services.AddScoped<IPublicationServices, PublicationServices>();
 builder.Services.AddScoped<IEmailServices, EmailServices>();
 builder.Services.AddScoped<IPublicationTypeServices, PublicationTypeServices>();
 
+builder.Services.AddScoped<IStartRatingRepository, StartRatingRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPublicationTypeRepository,  PublicationTypeRepository>();
 builder.Services.AddScoped<IPublicationRepository, PublicationRepository>();

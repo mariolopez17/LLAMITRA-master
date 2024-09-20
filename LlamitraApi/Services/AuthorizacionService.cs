@@ -42,7 +42,7 @@ namespace LlamitraApi.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = claims,
-                Expires = DateTime.UtcNow.AddMinutes(10),
+                Expires = DateTime.UtcNow.AddMinutes(60),
                 SigningCredentials = credencialsTokens,
             };
 
@@ -77,40 +77,59 @@ namespace LlamitraApi.Services
                 Token = token,
                 RefreshToken = refreshToken,
                 CreatedAt = DateTime.UtcNow,
-                ExpiratedAt = DateTime.UtcNow.AddMinutes(2)
+                ExpiratedAt = DateTime.UtcNow.AddDays(1)
             };
             await _proyectoIContext.HistorialRefreshTokens.AddAsync(historialRefreshToken);
             await _proyectoIContext.SaveChangesAsync();
 
             return new AuthorizacionResponse { Token =token,RefreshToken=refreshToken,Resultado=true,Msg="OK" };
         }
-        public async Task<AuthorizacionResponse> DevolverToken(LoginDto authorizacion)
+        public async Task<TokenAndUserDataResponse> DevolverTokenConDatosUsuario(LoginDto authorizacion)
         {
             var usuario_encontrado = _proyectoIContext.Users.FirstOrDefault(x =>
-            x.Mail == authorizacion.Mail &&
-            x.Password == Encrypt.GetSHA256(authorizacion.Password)
+                x.Mail == authorizacion.Mail &&
+                x.Password == Encrypt.GetSHA256(authorizacion.Password)
             );
 
             if (usuario_encontrado == null)
             {
-                return await Task.FromResult<AuthorizacionResponse>(null);
+                return null; 
             }
 
             var rol_encontrado = _proyectoIContext.Roles.FirstOrDefault(x => x.IdRol == usuario_encontrado.IdRol);
-            if (rol_encontrado == null) return await Task.FromResult<AuthorizacionResponse>(null);
-
+            if (rol_encontrado == null) return null; 
 
             var claims = new[]
             {
-                   new Claim( ClaimTypes.Role, rol_encontrado.Name ),
-                   new Claim(ClaimTypes.NameIdentifier, usuario_encontrado.IdUser.ToString() ),
+            new Claim(ClaimTypes.Role, rol_encontrado.Name),
+            new Claim(ClaimTypes.NameIdentifier, usuario_encontrado.IdUser.ToString()),
             };
 
-            string tokenCreado = GenerarToken(usuario_encontrado.IdUser.ToString(),claims);
-
+            string tokenCreado = GenerarToken(usuario_encontrado.IdUser.ToString(), claims);
             string refreshTokenCreated = GenerarRefreshToken();
 
-            return await GuardarHistorialRefreshToken(usuario_encontrado.IdUser,tokenCreado,refreshTokenCreated);
+           
+            await GuardarHistorialRefreshToken(usuario_encontrado.IdUser, tokenCreado, refreshTokenCreated);
+
+            var userData = new UserDataDto
+            {
+                Id = usuario_encontrado.IdUser,
+                Name = usuario_encontrado.Name,
+                Email = usuario_encontrado.Mail,
+                Role = rol_encontrado.Name,
+            };
+
+            return new TokenAndUserDataResponse
+            {
+                TokenResponse = new AuthorizacionResponse
+                {
+                    Token = tokenCreado,
+                    RefreshToken = refreshTokenCreated,
+                    Resultado = true,
+                    Msg = "Tu token tiene una duracion de una hora"
+                },
+                UserData = userData
+            };
         }
         public async Task<AuthorizacionResponse> DevolverRefreshToken(RefreshTokenRequest refreshTokenRequest, int idUser)
         {
@@ -157,37 +176,6 @@ namespace LlamitraApi.Services
             {
                 return null;
             }
-        }
-
-        public async Task<UserDataDto> ObtenerDatosUsuario(string token)
-        {
-            var principal = ValidarToken(token);
-
-            if (principal == null)
-            {
-                return null;
-            }
-
-            var idUsuario = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var usuario = await _proyectoIContext.Users.FirstOrDefaultAsync(x => x.IdUser.ToString() == idUsuario);
-
-            if (usuario == null)
-            {
-                return null;
-            }
-            
-            Roles rol = (Roles)usuario.IdRol;
-            var rolNombre = rol.ToString();
-
-            var userData = new UserDataDto
-            {
-                Id = usuario.IdUser,
-                Name = usuario.Name,
-                Email = usuario.Mail,
-                Role = rolNombre,
-            };
-
-            return userData;
         }
     }
 }

@@ -20,6 +20,7 @@ public partial class ProyectoIContext : DbContext
     public virtual DbSet<HistorialRefreshToken> HistorialRefreshTokens { get; set; }
     public virtual DbSet<Role> Roles { get; set; }
     public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<PublicationRating> PublicationRatings { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -28,35 +29,6 @@ public partial class ProyectoIContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
 
-        #region "codigo comentado"
-        /*modelBuilder.Entity<InLive>(entity =>
-        {
-            entity.HasKey(e => e.IdLive).HasName("PK_idLive");
-
-            entity.ToTable("InLive");
-
-            entity.Property(e => e.IdLive).HasColumnName("idLive");
-            entity.Property(e => e.Description)
-                .HasMaxLength(400)
-                .IsUnicode(false)
-                .HasColumnName("description");
-            entity.Property(e => e.Price)
-                .HasColumnType("decimal(10, 2)")
-                .HasColumnName("price");
-            entity.Property(e => e.Professor)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasColumnName("professor");
-            entity.Property(e => e.Title)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("title");
-            entity.Property(e => e.Url)
-                .HasMaxLength(200)
-                .IsUnicode(false)
-                .HasColumnName("url");
-        });*/
-        #endregion
         modelBuilder.Entity<HistorialRefreshToken>(entity =>
         {
             entity.HasKey(e => e.IdHistorialToken).HasName("PK__Historia__03DC48A5BDFD22AD");
@@ -169,33 +141,7 @@ public partial class ProyectoIContext : DbContext
                 .HasForeignKey(d => d.IdRol)
                 .HasConstraintName("FK__Users__idRol__3B75D760");
         });
-        #region "codigo comentado"
-        /*modelBuilder.Entity<Video>(entity =>
-        {
-            entity.HasKey(e => e.IdVideo).HasName("PK_idVideo");
-
-            entity.Property(e => e.IdVideo).HasColumnName("idVideo");
-            entity.Property(e => e.Description)
-                .HasMaxLength(400)
-                .IsUnicode(false)
-                .HasColumnName("description");
-            entity.Property(e => e.Price)
-                .HasColumnType("decimal(10, 2)")
-                .HasColumnName("price");
-            entity.Property(e => e.Professor)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasColumnName("professor");
-            entity.Property(e => e.Title)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("title");
-            entity.Property(e => e.Url)
-                .HasMaxLength(450)
-                .IsUnicode(false)
-                .HasColumnName("url");
-        });*/
-        #endregion
+        
         OnModelCreatingPartial(modelBuilder);
     }
 

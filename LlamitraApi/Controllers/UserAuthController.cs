@@ -20,32 +20,6 @@ namespace LlamitraApi.Controllers
         {
             _authorizacionService = authorizacionService;
         }
-        [HttpGet("my-data")]
-        public async Task<IActionResult> GetMe()
-        {
-            var token = Request.Headers["Authorization"].ToString().Split(" ").Last();
-            var userData = await _authorizacionService.ObtenerDatosUsuario(token);
-
-            if (userData == null)
-            {
-                return Unauthorized();
-            }
-
-            return Ok(userData);
-        }
-        [HttpPost]
-        [Route("/api/login")]
-        public async Task<IActionResult> authenticate([FromBody] LoginDto authorizacion)
-        {
-            var result_authorizacion = await _authorizacionService.DevolverToken(authorizacion);
-            if(result_authorizacion == null)
-            {
-                return Unauthorized();
-            }
-            
-            return Ok(result_authorizacion);
-            
-        }
         [HttpPost]
         [Route("/api/get-refresh-token")]
         public async Task<IActionResult> ObtenerRefreshToken([FromBody] RefreshTokenRequest request)
@@ -70,5 +44,23 @@ namespace LlamitraApi.Controllers
                 return BadRequest(autorizacionResponse);
             }
         }
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+        {
+            if (loginDto == null)
+            {
+                return BadRequest("No has cargado tus datos");
+            }
+
+            var response = await _authorizacionService.DevolverTokenConDatosUsuario(loginDto);
+
+            if (response == null)
+            {
+                return Unauthorized("tu email o tu contraseña no son validads");
+            }
+
+            return Ok(response);
+        }
     }
+    
 }

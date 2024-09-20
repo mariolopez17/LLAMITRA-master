@@ -7,9 +7,7 @@ namespace LlamitraApi.Services.IServices
 {
     public interface IAuthorizacionService
     {
-        Task<AuthorizacionResponse> DevolverToken(LoginDto authorizacion);
-
+        Task<TokenAndUserDataResponse> DevolverTokenConDatosUsuario(LoginDto authorizacion);
         Task<AuthorizacionResponse> DevolverRefreshToken(RefreshTokenRequest refreshTokenRequest, int idUser);
-        Task<UserDataDto> ObtenerDatosUsuario(string token); 
     }
 }
