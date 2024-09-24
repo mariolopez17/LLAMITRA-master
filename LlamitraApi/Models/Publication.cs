@@ -2,7 +2,7 @@
 
 namespace LlamitraApi.Models
 {
-    [Table("Publications")]
+    [Table("Publication")]
     public class Publication
     {
         public int IdPublication { get; set; }
@@ -17,6 +17,8 @@ namespace LlamitraApi.Models
 
         public virtual PublicationType IdTypeNavigation { get; set; }
         public virtual User IdUserNavigation { get; set; }
+        public virtual ICollection<PublicationRating> PublicationRatings { get; set; }
+
 
     }
 }

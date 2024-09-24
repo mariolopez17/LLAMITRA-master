@@ -130,10 +130,20 @@ namespace LlamitraApi.Migrations
                     b.Property<int>("IdPublication")
                         .HasColumnType("int");
 
+                    b.Property<int?>("IdPublicationNavigationIdPublication")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdUser")
+                        .HasColumnType("int");
+
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdPublication");
+
+                    b.HasIndex("IdPublicationNavigationIdPublication");
 
                     b.ToTable("PublicationRatings");
                 });
@@ -262,6 +272,21 @@ namespace LlamitraApi.Migrations
                     b.Navigation("IdUserNavigation");
                 });
 
+            modelBuilder.Entity("LlamitraApi.Models.PublicationRating", b =>
+                {
+                    b.HasOne("LlamitraApi.Models.Publication", null)
+                        .WithMany()
+                        .HasForeignKey("IdPublication")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LlamitraApi.Models.Publication", "IdPublicationNavigation")
+                        .WithMany("PublicationRatings")
+                        .HasForeignKey("IdPublicationNavigationIdPublication");
+
+                    b.Navigation("IdPublicationNavigation");
+                });
+
             modelBuilder.Entity("LlamitraApi.Models.User", b =>
                 {
                     b.HasOne("LlamitraApi.Models.Role", "IdRolNavigation")
@@ -272,6 +297,11 @@ namespace LlamitraApi.Migrations
                         .HasConstraintName("FK__Users__idRol__3B75D760");
 
                     b.Navigation("IdRolNavigation");
+                });
+
+            modelBuilder.Entity("LlamitraApi.Models.Publication", b =>
+                {
+                    b.Navigation("PublicationRatings");
                 });
 
             modelBuilder.Entity("LlamitraApi.Models.PublicationType", b =>

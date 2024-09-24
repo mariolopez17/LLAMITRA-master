@@ -28,6 +28,15 @@ public partial class ProyectoIContext : DbContext
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<PublicationRating>()
+            .HasKey(pr => pr.Id);
+
+        modelBuilder.Entity<PublicationRating>()
+            
+            .HasOne<Publication>()
+            .WithMany()
+            .HasForeignKey(pr => pr.IdPublication)
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<HistorialRefreshToken>(entity =>
         {

@@ -11,14 +11,13 @@ namespace LlamitraApi.Repository
     public class StartRatingRepository(ProyectoIContext dbContext) : IStartRatingRepository
     {
         private readonly ProyectoIContext _dbContext = dbContext;
-
-        
-        public void AddRating(int publicationId, int rating)
+        public void AddRating(int publicationId, int rating, int userId)
         {
             var ratingEntity = new PublicationRating
             {
-                IdPublication = publicationId, 
-                Rating = rating
+                IdPublication = publicationId,
+                Rating = rating,
+                IdUser = userId
             };
 
             _dbContext.PublicationRatings.Add(ratingEntity);
@@ -28,9 +27,9 @@ namespace LlamitraApi.Repository
         public IEnumerable<int> GetRatings(int publicationId)
         {
             return _dbContext.PublicationRatings
-                           .Where(r => r.IdPublication == publicationId) 
-                           .Select(r => r.Rating)
-                           .ToList();
+                .Where(r => r.IdPublication == publicationId)
+                .Select(r => r.Rating)
+                .ToList();
         }
     }
 }

@@ -1,9 +1,11 @@
-﻿namespace LlamitraApi.Repository.IRepository
+﻿using LlamitraApi.Models;
+
+namespace LlamitraApi.Repository.IRepository
 {
     public interface IStartRatingRepository
     {
-        void AddRating(int productId, int rating);
-        IEnumerable<int> GetRatings(int productId);
+        void AddRating(int productId, int rating, int userId);
+        IEnumerable<int> GetRatings(int publicationId);
     }
 
 }
