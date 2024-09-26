@@ -44,13 +44,27 @@ namespace LlamitraApi.Controllers
             }
 
         }
-            [HttpGet("{publicationId}/average-rating")]
-            public IActionResult GetAverageRating(int publicationId)
+            
+        [HttpGet("{publicationId}/average-rating")]
+        public IActionResult GetAverageRating(int publicationId)
+        {
+            var averageRating = _ratingService.GetAverageRating(publicationId);
+            return Ok(new { AverageRating = averageRating });
+        }
+        [HttpGet("{publicationId}/user-rating")]
+        public IActionResult GetUserRating(int publicationId)
+        {
+            var userId = GetUserId();
+            try
             {
-                var averageRating = _ratingService.GetAverageRating(publicationId);
-                return Ok(new { AverageRating = averageRating });
+                var userRating = _ratingService.GetUserRating(publicationId, userId);
+                return Ok(new { UserRating = userRating });
             }
-
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
         private int GetUserId()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);

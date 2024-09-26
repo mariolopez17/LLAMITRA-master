@@ -6,6 +6,7 @@ namespace LlamitraApi.Repository.IRepository
     {
         void AddRating(int productId, int rating, int userId);
         IEnumerable<int> GetRatings(int publicationId);
+        int GetUserRating(int publicationId, int userId);
     }
 
 }

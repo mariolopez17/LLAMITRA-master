@@ -30,6 +30,18 @@ namespace LlamitraApi.Services
 
             return ratings.Average();
         }
+        public int GetUserRating(int publicationId, int userId)
+        {
+            var publicationRating = _dbContext.PublicationRatings
+                .FirstOrDefault(pr => pr.IdPublication == publicationId && pr.IdUser == userId);
+
+            if (publicationRating == null)
+            {
+                return 0; // O lanzar una excepción si prefieres
+            }
+
+            return publicationRating.Rating;
+        }
 
         public void UpdateRating(int publicationId, int rating, int userId)
         {
