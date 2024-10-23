@@ -12,7 +12,7 @@ namespace LlamitraApi.Controllers
 {
     [Route("/api/publication-type")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class PublicationTypeController(IPublicationTypeServices TypeService) : ControllerBase 
     {
         public readonly IPublicationTypeServices _TypeService = TypeService;

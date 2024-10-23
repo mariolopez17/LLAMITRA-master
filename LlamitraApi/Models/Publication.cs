@@ -19,6 +19,5 @@ namespace LlamitraApi.Models
         public virtual User IdUserNavigation { get; set; }
         public virtual ICollection<PublicationRating> PublicationRatings { get; set; }
 
-
     }
 }

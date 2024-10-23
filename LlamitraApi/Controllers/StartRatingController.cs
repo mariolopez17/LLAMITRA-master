@@ -75,6 +75,5 @@ namespace LlamitraApi.Controllers
 
             throw new UnauthorizedAccessException("El usuario no está autenticado.");
         }
-
     }
-    }
+}
