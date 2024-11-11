@@ -33,7 +33,7 @@ namespace LlamitraApi.Repository
                 .FirstOrDefaultAsync(p => p.IdPublication == id);
         }
 
-        
+
         public Task UpdatePublication(Publication publication)
         {
             throw new NotImplementedException();

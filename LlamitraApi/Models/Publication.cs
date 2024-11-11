@@ -12,6 +12,16 @@ namespace LlamitraApi.Models
         public decimal Price { get; set; }
         public string Professor { get; set; }
         public string Title { get; set; }
+
+        
+        public string DescriptionProgram { get; set; }
+        public string Duration { get; set; }
+        public string DurationWeek { get; set; }
+        public string Category { get; set; }
+        public string KnowledgeLevel { get; set; }
+        public bool Favorite { get; set; }
+        public bool Comprado { get; set; }
+
         public virtual PublicationType IdTypeNavigation { get; set; }
         public virtual User IdUserNavigation { get; set; }
         public virtual ICollection<PublicationRating> PublicationRatings { get; set; }

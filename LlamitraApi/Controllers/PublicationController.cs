@@ -37,11 +37,13 @@ namespace LlamitraApi.Controllers
         {
             try
             {
+                
                 if (file == null || file.Length == 0)
                 {
                     return BadRequest("Debe proporcionar un archivo.");
                 }
 
+                
                 await _PublicationServices.SavePublicationAsync(publicationDto, file);
 
                 return StatusCode(201, "Publicación creada con éxito.");
@@ -54,6 +56,10 @@ namespace LlamitraApi.Controllers
                     Message = "No tienes acceso porque no eres profesor.",
                     Response = null
                 };
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al registrar la publicación: {ex.Message}");
             }
         }
 
@@ -116,29 +122,30 @@ namespace LlamitraApi.Controllers
         }
 
 
-        [HttpGet("GetAllPublications")]
-        public async Task<ActionResult<ResponseObjectJsonDto>> GetAllPublications()
-        {
-            try
-            {
-                var publications = await _PublicationServices.GetAllPublicationsAsync();
-                return Ok(new ResponseObjectJsonDto
-                {
-                    Code = (int)CodeHttp.OK,
-                    Message = "Lista de publicaciones obtenida con éxito.",
-                    Response = publications
-                });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new ResponseObjectJsonDto
-                {
-                    Code = (int)CodeHttp.INTERNALSERVER,
-                    Message = "Error al obtener las publicaciones.",
-                    Response = ex.Message
-                });
-            }
-        }
+        //[HttpGet("GetAllPublications")]
+        //public async Task<ActionResult<ResponseObjectJsonDto>> GetAllPublications()
+        //{
+        //    try
+        //    {
+        //        var publications = await _PublicationServices.GetAllPublicationsAsync();
+        //        return Ok(new ResponseObjectJsonDto
+        //        {
+        //            Code = (int)CodeHttp.OK,
+        //            Message = "Lista de publicaciones obtenida con éxito.",
+        //            Response = publications
+        //        });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, new ResponseObjectJsonDto
+        //        {
+        //            Code = (int)CodeHttp.INTERNALSERVER,
+        //            Message = "Error al obtener las publicaciones.",
+        //            Response = ex.Message
+        //        });
+        //    }
+        //}
+
         [HttpGet]
         public async Task<ActionResult<ResponseObjectJsonDto>> GetAll()
         {

@@ -90,6 +90,26 @@ public partial class ProyectoIContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("title");
 
+            entity.Property(e => e.DescriptionProgram)
+                    .IsUnicode(false)
+                    .HasColumnName("descriptionProgram");
+            entity.Property(e => e.Duration)
+                .IsUnicode(false)
+                .HasColumnName("duration");
+            entity.Property(e => e.DurationWeek)
+                .IsUnicode(false)
+                .HasColumnName("durationWeek");
+            entity.Property(e => e.Category)
+                .IsUnicode(false)
+                .HasColumnName("category");
+            entity.Property(e => e.KnowledgeLevel)
+                .IsUnicode(false)
+                .HasColumnName("knowledgeLevel");
+            entity.Property(e => e.Favorite)
+                .HasColumnName("favorite");
+            entity.Property(e => e.Comprado)
+                .HasColumnName("comprado");
+
             entity.HasOne(d => d.IdTypeNavigation).WithMany(p => p.Publications)
                 .HasForeignKey(d => d.IdType)
                 .HasConstraintName("FK_Publications_IdType");

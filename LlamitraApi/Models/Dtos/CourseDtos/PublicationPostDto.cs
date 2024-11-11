@@ -33,8 +33,16 @@ namespace LlamitraApi.Models.Dtos.CourseDtos
         [StringLength(400, ErrorMessage = "La descripción no puede superar los 400 caracteres.")]
         public string Description { get; set; }
 
+        public string DescriptionProgram { get; set; }
+        public string Duration { get; set; }
+        public string DurationWeek { get; set; }
+        public string Category { get; set; }
+        public string KnowledgeLevel { get; set; }
+        public bool Favorite { get; set; }
+        public bool Comprado { get; set; }
+
         [JsonIgnore]
-        public List<IFormFile> Videos { get; set; } 
+        public List<IFormFile> Videos { get; set; }
 
         public List<VideoDto> VideoDetails { get; set; }
     }

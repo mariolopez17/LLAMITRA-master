@@ -31,7 +31,6 @@ namespace LlamitraApi.Services
             var publication = _mapper.Map<Publication>(publicationDto);
             publication.Videos = new List<Video>();
 
-            
             if (file != null && file.Length > 0)
             {
                 using (var memoryStream = new MemoryStream())
@@ -40,15 +39,14 @@ namespace LlamitraApi.Services
                     var video = new Video
                     {
                         FileName = file.FileName,
-                        Title = "Título por defecto", 
-                        Description = "Descripción por defecto", 
+                        Title = "Título por defecto",
+                        Description = "Descripción por defecto",
                         FileContent = memoryStream.ToArray()
                     };
                     publication.Videos.Add(video);
                 }
             }
 
-            
             if (publicationDto.Videos != null && publicationDto.Videos.Count > 0 &&
                 publicationDto.VideoDetails != null && publicationDto.VideoDetails.Count == publicationDto.Videos.Count)
             {
@@ -74,15 +72,25 @@ namespace LlamitraApi.Services
                 }
             }
 
-            
+            publication.DescriptionProgram = publicationDto.DescriptionProgram;
+            publication.Duration = publicationDto.Duration;
+            publication.DurationWeek = publicationDto.DurationWeek;
+            publication.Category = publicationDto.Category;
+            publication.KnowledgeLevel = publicationDto.KnowledgeLevel;
+            publication.Favorite = publicationDto.Favorite;
+            publication.Comprado = publicationDto.Comprado;
+
             _dbContext.Publications.Add(publication);
             await _dbContext.SaveChangesAsync();
         }
 
 
 
+
         public async Task CreatePublication(PublicationPostDto publication)
         {
+            
+
             var publications = new Publication()
             {
                 IdType = publication.IdType,
@@ -91,6 +99,13 @@ namespace LlamitraApi.Services
                 Price = publication.Price,
                 Title = publication.Title,
                 Description = publication.Description,
+                DescriptionProgram = publication.DescriptionProgram,
+                Duration = publication.Duration,
+                DurationWeek = publication.DurationWeek,
+                Category = publication.Category,
+                KnowledgeLevel = publication.KnowledgeLevel,
+                Favorite = publication.Favorite,
+                Comprado = publication.Comprado
             };
             await _PublicationRepository.AddPublication(publications);
             
@@ -109,16 +124,13 @@ namespace LlamitraApi.Services
         }
         public async Task<PublicacionGetDto> GetPublicationWithVideosById(int id)
         {
-            
             var publication = await _PublicationRepository.GetPublicationById(id);
 
-            
             if (publication == null)
             {
                 throw new KeyNotFoundException("Publicación no encontrada.");
             }
 
-            
             var publicationDto = _mapper.Map<PublicacionGetDto>(publication);
 
             return publicationDto;

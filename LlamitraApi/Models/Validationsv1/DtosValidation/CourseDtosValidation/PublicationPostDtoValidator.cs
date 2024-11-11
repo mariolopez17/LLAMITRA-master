@@ -23,10 +23,10 @@ namespace LlamitraApi.Models.Validations.DtosValidation.CourseDtosValidation
             });
 
             RuleFor(s => s.Title).NotEmpty().WithMessage("El Titulo es obligatorio");
-            RuleFor(s => s.Title).MinimumLength(50).WithMessage("El título no puede superar los 50 caracteres ");
+            RuleFor(s => s.Title).MaximumLength(50).WithMessage("El título no puede superar los 50 caracteres ");
 
             RuleFor(a => a.Description).NotEmpty().WithMessage("La descripción es obligatoria ");
-            RuleFor(a => a.Description).MinimumLength(400).WithMessage("La descripción no puede superar los 400 caracteres");
+            RuleFor(a => a.Description).MaximumLength(400).WithMessage("La descripción no puede superar los 400 caracteres");
         }
     }
 }
