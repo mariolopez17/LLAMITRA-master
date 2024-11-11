@@ -25,26 +25,62 @@ namespace LlamitraApi.Services
         }
 
 
-        
+
         public async Task SavePublicationAsync(PublicationPostDto publicationDto, IFormFile file)
         {
             var publication = _mapper.Map<Publication>(publicationDto);
-            
-            if (file != null)
-            {
-                
-                publication.FileName = file.FileName;
+            publication.Videos = new List<Video>();
 
+            
+            if (file != null && file.Length > 0)
+            {
                 using (var memoryStream = new MemoryStream())
                 {
-                    await file.CopyToAsync(memoryStream); 
-                    publication.FileContent = memoryStream.ToArray();
+                    await file.CopyToAsync(memoryStream);
+                    var video = new Video
+                    {
+                        FileName = file.FileName,
+                        Title = "Título por defecto", 
+                        Description = "Descripción por defecto", 
+                        FileContent = memoryStream.ToArray()
+                    };
+                    publication.Videos.Add(video);
                 }
-
-                _dbContext.Publications.Add(publication);
-                await _dbContext.SaveChangesAsync();
             }
+
+            
+            if (publicationDto.Videos != null && publicationDto.Videos.Count > 0 &&
+                publicationDto.VideoDetails != null && publicationDto.VideoDetails.Count == publicationDto.Videos.Count)
+            {
+                for (int i = 0; i < publicationDto.Videos.Count; i++)
+                {
+                    var videoFile = publicationDto.Videos[i];
+                    var videoDetail = publicationDto.VideoDetails[i];
+
+                    var video = new Video
+                    {
+                        FileName = videoFile.FileName,
+                        Title = videoDetail.Title,
+                        Description = videoDetail.Description,
+                    };
+
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await videoFile.CopyToAsync(memoryStream);
+                        video.FileContent = memoryStream.ToArray();
+                    }
+
+                    publication.Videos.Add(video);
+                }
+            }
+
+            
+            _dbContext.Publications.Add(publication);
+            await _dbContext.SaveChangesAsync();
         }
+
+
+
         public async Task CreatePublication(PublicationPostDto publication)
         {
             var publications = new Publication()
@@ -55,21 +91,40 @@ namespace LlamitraApi.Services
                 Price = publication.Price,
                 Title = publication.Title,
                 Description = publication.Description,
-                FileContent = publication.FileContent
             };
             await _PublicationRepository.AddPublication(publications);
             
         }
-        public async Task<List<PublicacionGetDto>> GetAll()
+        public async Task<List<PublicacionGetDto>> GetAllPublicationsAsync()
         {
-            var publicationsDtos = new List<PublicacionGetDto>();
-            var publications = await _PublicationRepository.GetAllPublication();
-
-            _mapper.Map(publications, publicationsDtos);
-
+            var publications = await _PublicationRepository.GetAllPublicationWithVideos();
+            var publicationsDtos = _mapper.Map<List<PublicacionGetDto>>(publications);
             return publicationsDtos;
         }
-        
+        public async Task<List<PublicacionGetDto>> GetAll()
+        {
+            var publications = await _PublicationRepository.GetAllPublicationWithVideos();
+            var publicationsDtos = _mapper.Map<List<PublicacionGetDto>>(publications);
+            return publicationsDtos;
+        }
+        public async Task<PublicacionGetDto> GetPublicationWithVideosById(int id)
+        {
+            
+            var publication = await _PublicationRepository.GetPublicationById(id);
+
+            
+            if (publication == null)
+            {
+                throw new KeyNotFoundException("Publicación no encontrada.");
+            }
+
+            
+            var publicationDto = _mapper.Map<PublicacionGetDto>(publication);
+
+            return publicationDto;
+        }
+
+
         public async Task<List<PublicacionGetDto>> GetRandomList()
         {
             var publicationsDtos = new List<PublicacionGetDto>();

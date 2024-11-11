@@ -77,14 +77,6 @@ namespace LlamitraApi.Migrations
                         .HasColumnType("varchar(400)")
                         .HasColumnName("description");
 
-                    b.Property<byte[]>("FileContent")
-                        .HasColumnType("varbinary(max)")
-                        .HasColumnName("FileContent");
-
-                    b.Property<string>("FileName")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("FileName");
-
                     b.Property<int>("IdType")
                         .HasColumnType("int")
                         .HasColumnName("idType");
@@ -241,6 +233,41 @@ namespace LlamitraApi.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("LlamitraApi.Models.Video", b =>
+                {
+                    b.Property<int>("IdVideo")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("IdVideo");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdVideo"));
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<byte[]>("FileContent")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PublicationId")
+                        .HasColumnType("int")
+                        .HasColumnName("PublicationId");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("IdVideo");
+
+                    b.HasIndex("PublicationId");
+
+                    b.ToTable("Video", (string)null);
+                });
+
             modelBuilder.Entity("LlamitraApi.Models.HistorialRefreshToken", b =>
                 {
                     b.HasOne("LlamitraApi.Models.User", "IdUserNavigation")
@@ -299,9 +326,22 @@ namespace LlamitraApi.Migrations
                     b.Navigation("IdRolNavigation");
                 });
 
+            modelBuilder.Entity("LlamitraApi.Models.Video", b =>
+                {
+                    b.HasOne("LlamitraApi.Models.Publication", "Publication")
+                        .WithMany("Videos")
+                        .HasForeignKey("PublicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Publication");
+                });
+
             modelBuilder.Entity("LlamitraApi.Models.Publication", b =>
                 {
                     b.Navigation("PublicationRatings");
+
+                    b.Navigation("Videos");
                 });
 
             modelBuilder.Entity("LlamitraApi.Models.PublicationType", b =>

@@ -30,10 +30,10 @@ namespace LlamitraApi.Controllers
         private readonly IPublicationRepository _publicationRepository = publicationRepository;
         private readonly IMapper _mapper = mapper;
 
-        
+
         [HttpPost]
         [Authorize(Policy = "profesor")]
-        public async Task<ActionResult<ResponseObjectJsonDto>> CreatePublication([FromForm] PublicationPostDto publication, IFormFile file)
+        public async Task<ActionResult<ResponseObjectJsonDto>> CreatePublication([FromForm] PublicationPostDto publicationDto, IFormFile file)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace LlamitraApi.Controllers
                     return BadRequest("Debe proporcionar un archivo.");
                 }
 
-                await _PublicationServices.SavePublicationAsync(publication, file);
+                await _PublicationServices.SavePublicationAsync(publicationDto, file);
 
                 return StatusCode(201, "Publicación creada con éxito.");
             }
@@ -57,7 +57,8 @@ namespace LlamitraApi.Controllers
             }
         }
 
-        
+
+
         [HttpPost("presencial")]
         [Authorize(Policy = "profesor")]
         public async Task<ActionResult<ResponseObjectJsonDto>> RegisterPublication(PublicationPostDto Creationpublication)
@@ -99,6 +100,44 @@ namespace LlamitraApi.Controllers
                 return StatusCode(500, $"Error al registrar la publicacion: {ex.Message}, tu error no esta dentro de los errores validados");
             }
 
+        }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<PublicacionGetDto>> GetPublicationWithVideos(int id)
+        {
+            try
+            {
+                var publicationDto = await _PublicationServices.GetPublicationWithVideosById(id);
+                return Ok(publicationDto);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound("Publicación no encontrada.");
+            }
+        }
+
+
+        [HttpGet("GetAllPublications")]
+        public async Task<ActionResult<ResponseObjectJsonDto>> GetAllPublications()
+        {
+            try
+            {
+                var publications = await _PublicationServices.GetAllPublicationsAsync();
+                return Ok(new ResponseObjectJsonDto
+                {
+                    Code = (int)CodeHttp.OK,
+                    Message = "Lista de publicaciones obtenida con éxito.",
+                    Response = publications
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ResponseObjectJsonDto
+                {
+                    Code = (int)CodeHttp.INTERNALSERVER,
+                    Message = "Error al obtener las publicaciones.",
+                    Response = ex.Message
+                });
+            }
         }
         [HttpGet]
         public async Task<ActionResult<ResponseObjectJsonDto>> GetAll()
@@ -164,40 +203,40 @@ namespace LlamitraApi.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ResponseObjectJsonDto>> GetById(int id)
-        {
-            try
-            {
-                var publication = await _publicationRepository.GetPublicationById(id);
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<ResponseObjectJsonDto>> GetById(int id)
+        //{
+        //    try
+        //    {
+        //        var publication = await _publicationRepository.GetPublicationById(id);
 
 
-                if (publication == null)
-                {
-                    return new ResponseObjectJsonDto()
-                    {
-                        Code = 404,
-                        Message = "Reclamo no encontrado.",
-                        Response = null
-                    };
-                }
-                else
-                {
-                    var publicationDto = _mapper.Map<PublicationPostDto>(publication);
+        //        if (publication == null)
+        //        {
+        //            return new ResponseObjectJsonDto()
+        //            {
+        //                Code = 404,
+        //                Message = "Reclamo no encontrado.",
+        //                Response = null
+        //            };
+        //        }
+        //        else
+        //        {
+        //            var publicationDto = _mapper.Map<PublicationPostDto>(publication);
 
-                    return new ResponseObjectJsonDto()
-                    {
-                        Code = 200,
-                        Message = "Reclamo activo.",
-                        Response = publicationDto
-                    };
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error al registrar la publicacion: {ex.Message}, tu error no esta dentro de los errores validados");
-            }
-        }
+        //            return new ResponseObjectJsonDto()
+        //            {
+        //                Code = 200,
+        //                Message = "Reclamo activo.",
+        //                Response = publicationDto
+        //            };
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, $"Error al registrar la publicacion: {ex.Message}, tu error no esta dentro de los errores validados");
+        //    }
+        //}
 
         [HttpDelete("{id}")]
         [Authorize(Policy = "profesor")]

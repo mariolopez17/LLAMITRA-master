@@ -6,33 +6,28 @@ namespace LlamitraApi.Models;
 
 public partial class ProyectoIContext : DbContext
 {
-    public ProyectoIContext()
-    {
-
-    }
+    public ProyectoIContext() { }
 
     public ProyectoIContext(DbContextOptions<ProyectoIContext> options)
-        : base(options)
-    {
-    }
+        : base(options) { }
+
     public virtual DbSet<PublicationType> PublicationTypes { get; set; }
     public virtual DbSet<Publication> Publications { get; set; }
     public virtual DbSet<HistorialRefreshToken> HistorialRefreshTokens { get; set; }
     public virtual DbSet<Role> Roles { get; set; }
     public virtual DbSet<User> Users { get; set; }
     public virtual DbSet<PublicationRating> PublicationRatings { get; set; }
+    public virtual DbSet<Video> Videos { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
 
-    }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<PublicationRating>()
             .HasKey(pr => pr.Id);
 
         modelBuilder.Entity<PublicationRating>()
-            
             .HasOne<Publication>()
             .WithMany()
             .HasForeignKey(pr => pr.IdPublication)
@@ -58,6 +53,7 @@ public partial class ProyectoIContext : DbContext
                 .HasForeignKey(d => d.IdUser)
                 .HasConstraintName("FK__Historial__IdUsu__24927208");
         });
+
         modelBuilder.Entity<PublicationType>(entity =>
         {
             entity.HasKey(e => e.IdType).HasName("PK_idPublicationType");
@@ -68,10 +64,6 @@ public partial class ProyectoIContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("name");
         });
-        modelBuilder.Entity<Publication>()
-            .Property(p => p.FileName).HasColumnName("FileName");
-        modelBuilder.Entity<Publication>()
-            .Property(p => p.FileContent).HasColumnName("FileContent");
 
         modelBuilder.Entity<Publication>(entity =>
         {
@@ -86,8 +78,6 @@ public partial class ProyectoIContext : DbContext
                 .HasMaxLength(400)
                 .IsUnicode(false)
                 .HasColumnName("description");
-            entity.Property(p => p.FileName).HasColumnName("FileName");
-            entity.Property(p => p.FileContent).HasColumnName("FileContent");
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("price");
@@ -99,14 +89,41 @@ public partial class ProyectoIContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("title");
+
             entity.HasOne(d => d.IdTypeNavigation).WithMany(p => p.Publications)
                 .HasForeignKey(d => d.IdType)
                 .HasConstraintName("FK_Publications_IdType");
             entity.HasOne(d => d.IdUserNavigation).WithMany(p => p.Publications)
                 .HasForeignKey(d => d.IdUser)
                 .HasConstraintName("FK__Publications__idRol");
+
             
+            entity.HasMany(e => e.Videos)
+                .WithOne(e => e.Publication)
+                .HasForeignKey(e => e.PublicationId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
+
+        modelBuilder.Entity<Video>(entity =>
+        {
+            entity.HasKey(v => v.IdVideo);  
+
+            entity.ToTable("Video");  
+
+            entity.Property(v => v.IdVideo).HasColumnName("IdVideo");  
+            entity.Property(v => v.PublicationId).HasColumnName("PublicationId");  
+            entity.Property(v => v.Title).HasMaxLength(100).IsRequired();  
+            entity.Property(v => v.Description).HasMaxLength(500);  
+            entity.Property(v => v.FileName);  
+            entity.Property(v => v.FileContent);  
+
+            
+            entity.HasOne(v => v.Publication)
+                .WithMany(p => p.Videos)
+                .HasForeignKey(v => v.PublicationId)  
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
 
         modelBuilder.Entity<Role>(entity =>
         {
@@ -145,12 +162,11 @@ public partial class ProyectoIContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("password");
 
-
             entity.HasOne(d => d.IdRolNavigation).WithMany(p => p.Users)
                 .HasForeignKey(d => d.IdRol)
                 .HasConstraintName("FK__Users__idRol__3B75D760");
         });
-        
+
         OnModelCreatingPartial(modelBuilder);
     }
 

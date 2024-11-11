@@ -19,12 +19,21 @@ namespace LlamitraApi.Repository
         public async Task<List<Publication>> GetAllPublication()
         {
             return await _dbContext.Publications.ToListAsync();
-
+        }
+        public async Task<List<Publication>> GetAllPublicationWithVideos()
+        {
+            return await _dbContext.Publications
+                .Include(p => p.Videos) 
+                .ToListAsync();
         }
         public async Task<Publication> GetPublicationById(int id)
         {
-            return await _dbContext.Publications.FirstOrDefaultAsync(p => p.IdPublication == id);
+            return await _dbContext.Publications
+                .Include(p => p.Videos)
+                .FirstOrDefaultAsync(p => p.IdPublication == id);
         }
+
+        
         public Task UpdatePublication(Publication publication)
         {
             throw new NotImplementedException();
