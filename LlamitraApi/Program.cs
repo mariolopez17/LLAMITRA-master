@@ -11,6 +11,9 @@ using Microsoft.OpenApi.Models;
 using MimeKit;
 using System.Security.Claims;
 using LlamitraApi.Commons.Enum;
+using LlamitraApi.Models.Validations.DtosValidation.CourseDtosValidation;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -102,7 +105,8 @@ builder.Services.AddAuthorization(options =>
 });
 builder.Configuration.AddJsonFile("appsettings.json");
 
-
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<PublicationPostDtoValidator>();
 builder.Services.AddScoped<IStartRatingService, StartRatingService>();
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<IAuthorizacionService, AuthorizacionService>();
