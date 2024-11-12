@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Newtonsoft.Json;
+
 
 namespace LlamitraApi.Models;
 
@@ -126,21 +130,35 @@ public partial class ProyectoIContext : DbContext
 
         modelBuilder.Entity<Video>(entity =>
         {
-            entity.HasKey(v => v.IdVideo);  
+            entity.HasKey(v => v.IdVideo);
 
-            entity.ToTable("Video");  
+            entity.ToTable("Video");
 
-            entity.Property(v => v.IdVideo).HasColumnName("IdVideo");  
-            entity.Property(v => v.PublicationId).HasColumnName("PublicationId");  
-            entity.Property(v => v.Title).HasMaxLength(100).IsRequired();  
-            entity.Property(v => v.Description).HasMaxLength(500);  
-            entity.Property(v => v.FileName);  
-            entity.Property(v => v.FileContent);  
+            entity.Property(v => v.IdVideo).HasColumnName("IdVideo");
+            entity.Property(v => v.PublicationId).HasColumnName("PublicationId");
+            entity.Property(v => v.Title).HasMaxLength(100).IsRequired();
+            entity.Property(v => v.Description).HasMaxLength(500);
+            entity.Property(v => v.FileName);
 
             
+            var converter = new ValueConverter<List<string>, string>(
+                v => JsonConvert.SerializeObject(v),
+                v => JsonConvert.DeserializeObject<List<string>>(v));
+
+            
+            var comparer = new ValueComparer<List<string>>(
+                (c1, c2) => c1.SequenceEqual(c2), 
+                c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())), 
+                c => c.ToList() 
+            );
+
+            entity.Property(v => v.FilePath)
+                .HasConversion(converter)
+                .Metadata.SetValueComparer(comparer);
+
             entity.HasOne(v => v.Publication)
                 .WithMany(p => p.Videos)
-                .HasForeignKey(v => v.PublicationId)  
+                .HasForeignKey(v => v.PublicationId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
 

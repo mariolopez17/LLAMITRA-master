@@ -4,69 +4,40 @@ using LlamitraApi.Repository.IRepository;
 using LlamitraApi.Services.IServices;
 using AutoMapper;
 using LlamitraApi.Repository;
-using Microsoft.AspNetCore.Mvc;
-using MimeKit;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace LlamitraApi.Services
 {
     public class PublicationServices : IPublicationServices
     {
-        
         private readonly IPublicationRepository _PublicationRepository;
         private readonly IMapper _mapper;
         private readonly ProyectoIContext _dbContext;
 
         public PublicationServices(IPublicationRepository publicationRepository, IMapper mapper, ProyectoIContext dbContext)
         {
-           _PublicationRepository = publicationRepository;
-           _mapper = mapper;
-           _dbContext = dbContext;
+            _PublicationRepository = publicationRepository;
+            _mapper = mapper;
+            _dbContext = dbContext;
         }
 
-
-
-        public async Task SavePublicationAsync(PublicationPostDto publicationDto, IFormFile file)
+        public async Task SavePublicationAsync(PublicationPostDto publicationDto)
         {
             var publication = _mapper.Map<Publication>(publicationDto);
             publication.Videos = new List<Video>();
 
-            if (file != null && file.Length > 0)
+            if (publicationDto.VideoDetails != null && publicationDto.VideoDetails.Count > 0)
             {
-                using (var memoryStream = new MemoryStream())
+                foreach (var videoDetail in publicationDto.VideoDetails)
                 {
-                    await file.CopyToAsync(memoryStream);
                     var video = new Video
                     {
-                        FileName = file.FileName,
-                        Title = "Título por defecto",
-                        Description = "Descripción por defecto",
-                        FileContent = memoryStream.ToArray()
+                        FilePath = videoDetail.FilePath,
                     };
-                    publication.Videos.Add(video);
-                }
-            }
-
-            if (publicationDto.Videos != null && publicationDto.Videos.Count > 0 &&
-                publicationDto.VideoDetails != null && publicationDto.VideoDetails.Count == publicationDto.Videos.Count)
-            {
-                for (int i = 0; i < publicationDto.Videos.Count; i++)
-                {
-                    var videoFile = publicationDto.Videos[i];
-                    var videoDetail = publicationDto.VideoDetails[i];
-
-                    var video = new Video
-                    {
-                        FileName = videoFile.FileName,
-                        Title = videoDetail.Title,
-                        Description = videoDetail.Description,
-                    };
-
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        await videoFile.CopyToAsync(memoryStream);
-                        video.FileContent = memoryStream.ToArray();
-                    }
 
                     publication.Videos.Add(video);
                 }
@@ -84,44 +55,61 @@ namespace LlamitraApi.Services
             await _dbContext.SaveChangesAsync();
         }
 
-
-
-
-        public async Task CreatePublication(PublicationPostDto publication)
+        public async Task CreatePublication(PublicationPostDto publicationDto)
         {
-            
-
-            var publications = new Publication()
+            var publication = new Publication()
             {
-                IdType = publication.IdType,
-                IdUser = publication.IdUser,
-                Professor = publication.Professor,
-                Price = publication.Price,
-                Title = publication.Title,
-                Description = publication.Description,
-                DescriptionProgram = publication.DescriptionProgram,
-                Duration = publication.Duration,
-                DurationWeek = publication.DurationWeek,
-                Category = publication.Category,
-                KnowledgeLevel = publication.KnowledgeLevel,
-                Favorite = publication.Favorite,
-                Comprado = publication.Comprado
+                IdType = publicationDto.IdType,
+                IdUser = publicationDto.IdUser,
+                Professor = publicationDto.Professor,
+                Price = publicationDto.Price,
+                Title = publicationDto.Title,
+                Description = publicationDto.Description,
+                DescriptionProgram = publicationDto.DescriptionProgram,
+                Duration = publicationDto.Duration,
+                DurationWeek = publicationDto.DurationWeek,
+                Category = publicationDto.Category,
+                KnowledgeLevel = publicationDto.KnowledgeLevel,
+                Favorite = publicationDto.Favorite,
+                Comprado = publicationDto.Comprado,
+                Videos = new List<Video>()
             };
-            await _PublicationRepository.AddPublication(publications);
-            
+
+            if (publicationDto.VideoDetails != null && publicationDto.VideoDetails.Count > 0)
+            {
+                for (int i = 0; i < publicationDto.VideoDetails.Count; i++)
+                {
+                    var videoDetail = publicationDto.VideoDetails[i];
+
+                    var video = new Video
+                    {
+                        FileName = videoDetail.FileName,
+                        FilePath = new List<string>(),
+                        Title = videoDetail.Title,
+                        Description = videoDetail.Description
+                    };
+
+                    publication.Videos.Add(video);
+                }
+            }
+
+            await _PublicationRepository.AddPublication(publication);
         }
+
         public async Task<List<PublicacionGetDto>> GetAllPublicationsAsync()
         {
             var publications = await _PublicationRepository.GetAllPublicationWithVideos();
             var publicationsDtos = _mapper.Map<List<PublicacionGetDto>>(publications);
             return publicationsDtos;
         }
+
         public async Task<List<PublicacionGetDto>> GetAll()
         {
             var publications = await _PublicationRepository.GetAllPublicationWithVideos();
             var publicationsDtos = _mapper.Map<List<PublicacionGetDto>>(publications);
             return publicationsDtos;
         }
+
         public async Task<PublicacionGetDto> GetPublicationWithVideosById(int id)
         {
             var publication = await _PublicationRepository.GetPublicationById(id);
@@ -135,7 +123,6 @@ namespace LlamitraApi.Services
 
             return publicationDto;
         }
-
 
         public async Task<List<PublicacionGetDto>> GetRandomList()
         {
@@ -154,10 +141,12 @@ namespace LlamitraApi.Services
         {
             return await _PublicationRepository.GetPublicationById(id);
         }
+
         public Task UpdatePublication(Publication publication)
         {
             throw new NotImplementedException();
         }
+
         public async Task DeletePublication(Publication publication)
         {
             await _PublicationRepository.DeletePublication(publication);

@@ -18,10 +18,10 @@ namespace LlamitraApi.Models
         [StringLength(500, ErrorMessage = "La descripción no puede superar los 500 caracteres.")]
         public string Description { get; set; }  
 
-        public string FileName { get; set; } 
-        public byte[] FileContent { get; set; }
+        public string FileName { get; set; }
+        public List<string> FilePath { get; set; } = new List<string>();
 
-        
+
         [ForeignKey("PublicationId")]
         public virtual Publication Publication { get; set; }
     }

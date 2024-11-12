@@ -35,15 +35,17 @@ namespace LlamitraApi.Models.Dtos.CourseDtos
 
         [JsonIgnore]
         public byte[] FileContent { get; set; }
-        
-        public List<VideoGetDto> Videos { get; set; }
-    }
-    
 
-    public class VideoDto
-    {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public string FileName { get; set; }
+        public List<VideoDto> Videos { get; set; }
+
     }
+
+
+    //public class VideoDto
+    //{
+    //    public string Title { get; set; }
+    //    public string Description { get; set; }
+    //    public string FileName { get; set; }
+    //    public string FilePath { get; set; }
+    //}
 }

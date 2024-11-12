@@ -33,33 +33,35 @@ namespace LlamitraApi.Controllers
 
         [HttpPost]
         [Authorize(Policy = "profesor")]
-        public async Task<ActionResult<ResponseObjectJsonDto>> CreatePublication([FromForm] PublicationPostDto publicationDto, IFormFile file)
+        public async Task<ActionResult<ResponseObjectJsonDto>> CreatePublication([FromForm] PublicationPostDto publicationDto)
         {
             try
             {
-                
-                if (file == null || file.Length == 0)
+                await _PublicationServices.SavePublicationAsync(publicationDto);
+                return StatusCode(201, new ResponseObjectJsonDto
                 {
-                    return BadRequest("Debe proporcionar un archivo.");
-                }
-
-                
-                await _PublicationServices.SavePublicationAsync(publicationDto, file);
-
-                return StatusCode(201, "Publicación creada con éxito.");
+                    Code = (int)CodeHttp.OK,
+                    Message = "Publicación creada con éxito.",
+                    Response = publicationDto
+                });
             }
             catch (UnauthorizedAccessException)
             {
-                return new ResponseObjectJsonDto()
+                return Unauthorized(new ResponseObjectJsonDto
                 {
                     Code = (int)CodeHttp.FORBIDDEN,
                     Message = "No tienes acceso porque no eres profesor.",
                     Response = null
-                };
+                });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error al registrar la publicación: {ex.Message}");
+                return StatusCode(500, new ResponseObjectJsonDto
+                {
+                    Code = (int)CodeHttp.INTERNALSERVER,
+                    Message = $"Error al registrar la publicación: {ex.Message}",
+                    Response = null
+                });
             }
         }
 
@@ -67,46 +69,48 @@ namespace LlamitraApi.Controllers
 
         [HttpPost("presencial")]
         [Authorize(Policy = "profesor")]
-        public async Task<ActionResult<ResponseObjectJsonDto>> RegisterPublication(PublicationPostDto Creationpublication)
+        public async Task<ActionResult<ResponseObjectJsonDto>> RegisterPublication([FromBody] PublicationPostDto creationPublication)
         {
             try
             {
-                await _PublicationServices.CreatePublication(Creationpublication);
-                if (Creationpublication == null)
+                if (creationPublication == null)
                 {
-                    return new ResponseObjectJsonDto()
+                    return BadRequest(new ResponseObjectJsonDto
                     {
-                        Code = (int)CodeHttp.NOTFOUND,
-                        Message = "No se cargo de manera correcta la publicacion",
+                        Code = (int)CodeHttp.BADREQUEST,
+                        Message = "La publicación no se ha cargado correctamente.",
                         Response = null
-                    };
-                }
-                else
-                {
-                    return new ResponseObjectJsonDto()
-                    {
-                        Code = (int)CodeHttp.OK,
-                        Message = "Publicacion guardada",
-                        Response = Creationpublication
-                    };
+                    });
                 }
 
+                await _PublicationServices.CreatePublication(creationPublication);
+                return Ok(new ResponseObjectJsonDto
+                {
+                    Code = (int)CodeHttp.OK,
+                    Message = "Publicación guardada.",
+                    Response = creationPublication
+                });
             }
             catch (UnauthorizedAccessException)
             {
-                return new ResponseObjectJsonDto()
+                return Unauthorized(new ResponseObjectJsonDto
                 {
                     Code = (int)CodeHttp.FORBIDDEN,
                     Message = "No tienes acceso porque no eres profesor.",
                     Response = null
-                };
+                });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error al registrar la publicacion: {ex.Message}, tu error no esta dentro de los errores validados");
+                return StatusCode(500, new ResponseObjectJsonDto
+                {
+                    Code = (int)CodeHttp.INTERNALSERVER,
+                    Message = $"Error al registrar la publicación: {ex.Message}, error no validado.",
+                    Response = null
+                });
             }
-
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<PublicacionGetDto>> GetPublicationWithVideos(int id)
         {
