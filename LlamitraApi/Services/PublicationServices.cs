@@ -27,16 +27,16 @@ namespace LlamitraApi.Services
 
         public async Task SavePublicationAsync(PublicationPostDto publicationDto)
         {
-            var publication = _mapper.Map<Publication>(publicationDto); // Mapeo usando AutoMapper
+            var publication = _mapper.Map<Publication>(publicationDto); 
 
-            // Asegúrate de que Videos se agregue correctamente si es necesario
+            
             if (publicationDto.VideoDetails != null && publicationDto.VideoDetails.Count > 0)
             {
                 foreach (var videoDetail in publicationDto.VideoDetails)
                 {
                     var video = new Video
                     {
-                        FilePath = videoDetail.FilePath, // Asegúrate de que FilePath esté configurado correctamente
+                        FilePath = videoDetail.FilePath, 
                         Title = videoDetail.Title,
                         Description = videoDetail.Description
                     };
@@ -54,23 +54,24 @@ namespace LlamitraApi.Services
             publication.Favorite = publicationDto.Favorite;
             publication.Comprado = publicationDto.Comprado;
 
-            _dbContext.Publications.Add(publication); // Usamos el DbContext directamente
+            _dbContext.Publications.Add(publication); 
             await _dbContext.SaveChangesAsync();
         }
 
         public async Task CreatePublication(PublicationPostDto publicationDto)
         {
-            var publication = _mapper.Map<Publication>(publicationDto); // Mapeo usando AutoMapper
+            var publication = _mapper.Map<Publication>(publicationDto); 
 
-            // Asegúrate de agregar los videos correctamente
+            
             publication.Videos = publicationDto.VideoDetails?.Select(videoDetail => new Video
             {
-                FilePath = videoDetail.FilePath ?? new List<string>(), // Verifica que FilePath no sea null
+                FilePath = videoDetail.FilePath ?? new List<string>(), 
                 Title = videoDetail.Title,
                 Description = videoDetail.Description
             }).ToList() ?? new List<Video>();
 
-            await _PublicationRepository.AddPublication(publication); // Usamos el repositorio
+
+            await _PublicationRepository.AddPublication(publication);
         }
 
         public async Task<List<PublicacionGetDto>> GetAllPublicationsAsync()

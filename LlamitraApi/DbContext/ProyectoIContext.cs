@@ -128,13 +128,19 @@ public partial class ProyectoIContext : DbContext
 
             entity.Property(v => v.FilePath)
                 .HasConversion(converter)
+                .HasColumnType("nvarchar(max)");
+
+            
+            entity.Property(v => v.FilePath)
                 .Metadata.SetValueComparer(comparer);
+
 
             entity.HasOne(v => v.Publication)
                 .WithMany(p => p.Videos)
                 .HasForeignKey(v => v.PublicationId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
+
 
 
         modelBuilder.Entity<Role>(entity =>

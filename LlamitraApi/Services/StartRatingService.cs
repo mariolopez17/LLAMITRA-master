@@ -37,7 +37,7 @@ namespace LlamitraApi.Services
 
             if (publicationRating == null)
             {
-                return 0; // O lanzar una excepción si prefieres
+                return 0; 
             }
 
             return publicationRating.Rating;

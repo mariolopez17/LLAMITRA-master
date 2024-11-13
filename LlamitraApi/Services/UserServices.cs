@@ -49,7 +49,6 @@ namespace LlamitraApi.Services
             _mapper.Map(users, usersDto);
 
             return usersDto;
-            //return await _userRepository.GetAllUser();
         }
 
         public async Task<User> GetByIdUser(int id)
