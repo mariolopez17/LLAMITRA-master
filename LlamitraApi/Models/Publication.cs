@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace LlamitraApi.Models
 {
@@ -12,8 +13,6 @@ namespace LlamitraApi.Models
         public decimal Price { get; set; }
         public string Professor { get; set; }
         public string Title { get; set; }
-
-        
         public string DescriptionProgram { get; set; }
         public string Duration { get; set; }
         public string DurationWeek { get; set; }

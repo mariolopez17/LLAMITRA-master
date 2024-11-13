@@ -10,7 +10,6 @@ namespace LlamitraApi.Controllers
 {
     [ApiController]
     [Route("/api/user")]
-    //TODO mover el post de RegisterUser a authentication  y crear un LoginUser en authentication 
     public class UserController(IUserServices usuarioService) : ControllerBase
     {
         public readonly IUserServices _userService = usuarioService;

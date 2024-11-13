@@ -76,50 +76,25 @@ public partial class ProyectoIContext : DbContext
             entity.ToTable("Publication");
 
             entity.Property(e => e.IdPublication).HasColumnName("idPublication");
-            entity.Property(e => e.IdType).HasColumnName("idType");
-            entity.Property(e => e.IdUser).HasColumnName("idUser");
-            entity.Property(e => e.Description)
-                .HasMaxLength(400)
-                .IsUnicode(false)
-                .HasColumnName("description");
-            entity.Property(e => e.Price)
-                .HasColumnType("decimal(10, 2)")
-                .HasColumnName("price");
-            entity.Property(e => e.Professor)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasColumnName("professor");
-            entity.Property(e => e.Title)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("title");
+            entity.Property(e => e.Description).HasMaxLength(400).IsUnicode(false).HasColumnName("description");
+            entity.Property(e => e.Price).HasColumnType("decimal(10, 2)").HasColumnName("price");
+            entity.Property(e => e.Professor).HasMaxLength(20).IsUnicode(false).HasColumnName("professor");
+            entity.Property(e => e.Title).HasMaxLength(50).IsUnicode(false).HasColumnName("title");
+            entity.Property(e => e.DescriptionProgram).IsUnicode(false).HasColumnName("descriptionProgram");
+            entity.Property(e => e.Duration).IsUnicode(false).HasColumnName("duration");
+            entity.Property(e => e.DurationWeek).IsUnicode(false).HasColumnName("durationWeek");
+            entity.Property(e => e.Category).IsUnicode(false).HasColumnName("category");
+            entity.Property(e => e.KnowledgeLevel).IsUnicode(false).HasColumnName("knowledgeLevel");
+            entity.Property(e => e.Favorite).HasColumnName("favorite");
+            entity.Property(e => e.Comprado).HasColumnName("comprado");
 
-            entity.Property(e => e.DescriptionProgram)
-                    .IsUnicode(false)
-                    .HasColumnName("descriptionProgram");
-            entity.Property(e => e.Duration)
-                .IsUnicode(false)
-                .HasColumnName("duration");
-            entity.Property(e => e.DurationWeek)
-                .IsUnicode(false)
-                .HasColumnName("durationWeek");
-            entity.Property(e => e.Category)
-                .IsUnicode(false)
-                .HasColumnName("category");
-            entity.Property(e => e.KnowledgeLevel)
-                .IsUnicode(false)
-                .HasColumnName("knowledgeLevel");
-            entity.Property(e => e.Favorite)
-                .HasColumnName("favorite");
-            entity.Property(e => e.Comprado)
-                .HasColumnName("comprado");
-
+            
             entity.HasOne(d => d.IdTypeNavigation).WithMany(p => p.Publications)
                 .HasForeignKey(d => d.IdType)
                 .HasConstraintName("FK_Publications_IdType");
             entity.HasOne(d => d.IdUserNavigation).WithMany(p => p.Publications)
                 .HasForeignKey(d => d.IdUser)
-                .HasConstraintName("FK__Publications__idRol");
+                .HasConstraintName("FK_Publications_IdUser");
 
             
             entity.HasMany(e => e.Videos)
@@ -138,18 +113,17 @@ public partial class ProyectoIContext : DbContext
             entity.Property(v => v.PublicationId).HasColumnName("PublicationId");
             entity.Property(v => v.Title).HasMaxLength(100).IsRequired();
             entity.Property(v => v.Description).HasMaxLength(500);
-            entity.Property(v => v.FileName);
 
             
             var converter = new ValueConverter<List<string>, string>(
                 v => JsonConvert.SerializeObject(v),
-                v => JsonConvert.DeserializeObject<List<string>>(v));
+                v => JsonConvert.DeserializeObject<List<string>>(v) ?? new List<string>()
+            );
 
-            
             var comparer = new ValueComparer<List<string>>(
-                (c1, c2) => c1.SequenceEqual(c2), 
-                c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())), 
-                c => c.ToList() 
+                (c1, c2) => c1.SequenceEqual(c2),
+                c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                c => c.ToList()
             );
 
             entity.Property(v => v.FilePath)

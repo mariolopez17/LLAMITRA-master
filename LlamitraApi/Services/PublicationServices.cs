@@ -27,64 +27,16 @@ namespace LlamitraApi.Services
 
         public async Task SavePublicationAsync(PublicationPostDto publicationDto)
         {
-            var publication = _mapper.Map<Publication>(publicationDto);
-            publication.Videos = new List<Video>();
+            var publication = _mapper.Map<Publication>(publicationDto); // Mapeo usando AutoMapper
 
+            // Asegúrate de que Videos se agregue correctamente si es necesario
             if (publicationDto.VideoDetails != null && publicationDto.VideoDetails.Count > 0)
             {
                 foreach (var videoDetail in publicationDto.VideoDetails)
                 {
                     var video = new Video
                     {
-                        FilePath = videoDetail.FilePath,
-                    };
-
-                    publication.Videos.Add(video);
-                }
-            }
-
-            publication.DescriptionProgram = publicationDto.DescriptionProgram;
-            publication.Duration = publicationDto.Duration;
-            publication.DurationWeek = publicationDto.DurationWeek;
-            publication.Category = publicationDto.Category;
-            publication.KnowledgeLevel = publicationDto.KnowledgeLevel;
-            publication.Favorite = publicationDto.Favorite;
-            publication.Comprado = publicationDto.Comprado;
-
-            _dbContext.Publications.Add(publication);
-            await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task CreatePublication(PublicationPostDto publicationDto)
-        {
-            var publication = new Publication()
-            {
-                IdType = publicationDto.IdType,
-                IdUser = publicationDto.IdUser,
-                Professor = publicationDto.Professor,
-                Price = publicationDto.Price,
-                Title = publicationDto.Title,
-                Description = publicationDto.Description,
-                DescriptionProgram = publicationDto.DescriptionProgram,
-                Duration = publicationDto.Duration,
-                DurationWeek = publicationDto.DurationWeek,
-                Category = publicationDto.Category,
-                KnowledgeLevel = publicationDto.KnowledgeLevel,
-                Favorite = publicationDto.Favorite,
-                Comprado = publicationDto.Comprado,
-                Videos = new List<Video>()
-            };
-
-            if (publicationDto.VideoDetails != null && publicationDto.VideoDetails.Count > 0)
-            {
-                for (int i = 0; i < publicationDto.VideoDetails.Count; i++)
-                {
-                    var videoDetail = publicationDto.VideoDetails[i];
-
-                    var video = new Video
-                    {
-                        FileName = videoDetail.FileName,
-                        FilePath = new List<string>(),
+                        FilePath = videoDetail.FilePath, // Asegúrate de que FilePath esté configurado correctamente
                         Title = videoDetail.Title,
                         Description = videoDetail.Description
                     };
@@ -93,7 +45,32 @@ namespace LlamitraApi.Services
                 }
             }
 
-            await _PublicationRepository.AddPublication(publication);
+            // Otros campos adicionales
+            publication.DescriptionProgram = publicationDto.DescriptionProgram;
+            publication.Duration = publicationDto.Duration;
+            publication.DurationWeek = publicationDto.DurationWeek;
+            publication.Category = publicationDto.Category;
+            publication.KnowledgeLevel = publicationDto.KnowledgeLevel;
+            publication.Favorite = publicationDto.Favorite;
+            publication.Comprado = publicationDto.Comprado;
+
+            _dbContext.Publications.Add(publication); // Usamos el DbContext directamente
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task CreatePublication(PublicationPostDto publicationDto)
+        {
+            var publication = _mapper.Map<Publication>(publicationDto); // Mapeo usando AutoMapper
+
+            // Asegúrate de agregar los videos correctamente
+            publication.Videos = publicationDto.VideoDetails?.Select(videoDetail => new Video
+            {
+                FilePath = videoDetail.FilePath ?? new List<string>(), // Verifica que FilePath no sea null
+                Title = videoDetail.Title,
+                Description = videoDetail.Description
+            }).ToList() ?? new List<Video>();
+
+            await _PublicationRepository.AddPublication(publication); // Usamos el repositorio
         }
 
         public async Task<List<PublicacionGetDto>> GetAllPublicationsAsync()
