@@ -45,7 +45,6 @@ namespace LlamitraApi.Services
                 }
             }
 
-            // Otros campos adicionales
             publication.DescriptionProgram = publicationDto.DescriptionProgram;
             publication.Duration = publicationDto.Duration;
             publication.DurationWeek = publicationDto.DurationWeek;
@@ -65,11 +64,10 @@ namespace LlamitraApi.Services
             
             publication.Videos = publicationDto.VideoDetails?.Select(videoDetail => new Video
             {
-                FilePath = videoDetail.FilePath ?? new List<string>(), 
+                FilePath = videoDetail.FilePath ?? new List<string>(),
                 Title = videoDetail.Title,
                 Description = videoDetail.Description
             }).ToList() ?? new List<Video>();
-
 
             await _PublicationRepository.AddPublication(publication);
         }

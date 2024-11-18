@@ -24,7 +24,7 @@ public class AutoMapperProfiles : Profile
             .ForMember(dest => dest.Videos, opt => opt.MapFrom(src => src.Videos));
 
         CreateMap<Video, VideoDto>()
-            .ForMember(dest => dest.FilePath, opt => opt.MapFrom(src => src.FilePath));
+            .ForMember(dest => dest.FilePath, opt => opt.MapFrom(src => src.FilePath)).ReverseMap();
 
         CreateMap<PublicationType, PublicationTypePostDto>();
     }

@@ -19,8 +19,9 @@ namespace LlamitraApi.Models
         [MaxLength(500)]
         public string Description { get; set; }
 
-        public List<string> FilePath { get; set; } = new List<string>(); // Asegúrate de que tenga un valor predeterminado
-
+        public List<string> FilePath { get; set; } = new List<string>();
+        
+        [ForeignKey("PublicationId")]
         public Publication Publication { get; set; }
     }
 
