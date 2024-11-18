@@ -21,15 +21,8 @@ public class AutoMapperProfiles : Profile
             .ForMember(dest => dest.Videos, opt => opt.MapFrom(src => MapVideos(src.VideoDetails)));
 
         CreateMap<Publication, PublicacionGetDto>()
-            .ForMember(dest => dest.VideoDetails, opt => opt.MapFrom(src => src.Videos));
-            //.ForMember(dest => dest.VideoDetails, opt => opt.MapFrom(src => src.DescriptionProgram))
-            //.ForMember(dest => dest.VideoDetails, opt => opt.MapFrom(src => src.Duration))
-            //.ForMember(dest => dest.VideoDetails, opt => opt.MapFrom(src => src.DurationWeek))
-            //.ForMember(dest => dest.VideoDetails, opt => opt.MapFrom(src => src.Category))
-            //.ForMember(dest => dest.VideoDetails, opt => opt.MapFrom(src => src.KnowledgeLevel))
-            //.ForMember(dest => dest.VideoDetails, opt => opt.MapFrom(src => src.Favorite))
-            //.ForMember(dest => dest.VideoDetails, opt => opt.MapFrom(src => src.Comprado));
-
+            .ForMember(dest => dest.VideoDetails, opt => opt.MapFrom(src => src.Videos)).ReverseMap();
+            
 
         CreateMap<Video, VideoDto>()
             .ForMember(dest => dest.FilePath, opt => opt.MapFrom(src => src.FilePath)).ReverseMap();
@@ -49,7 +42,5 @@ public class AutoMapperProfiles : Profile
             FilePath = v.FilePath ?? new List<string>()
         }).ToList();
     }
-
-
 }
 
