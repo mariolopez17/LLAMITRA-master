@@ -22,11 +22,18 @@ namespace LlamitraApi.Models.Dtos.CourseDtos
         public string Title { get; set; }
 
         public string Description { get; set; }
+        public string DescriptionProgram { get; set; }
+        public string Duration { get; set; }
+        public string DurationWeek { get; set; }
+        public string Category { get; set; }
+        public string KnowledgeLevel { get; set; }
+        public bool Favorite { get; set; }
+        public bool Comprado { get; set; }
 
         [JsonIgnore]
         public byte[] FileContent { get; set; }
 
-        public List<VideoDto> Videos { get; set; }
+        public List<VideoDto> VideoDetails { get; set; }
 
     }
 

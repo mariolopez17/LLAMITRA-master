@@ -21,6 +21,6 @@ namespace LlamitraApi.Models.Dtos.CourseDtos
         public bool Favorite { get; set; }
         public bool Comprado { get; set; }
         public List<VideoDto> VideoDetails { get; set; }
-        public List<string> FilePaths { get; set; } 
+        //public List<string> FilePaths { get; set; } 
     }
 }

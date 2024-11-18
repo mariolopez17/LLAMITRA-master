@@ -30,11 +30,7 @@ namespace LlamitraApi.Controllers
         private readonly IPublicationRepository _publicationRepository = publicationRepository;
         private readonly IMapper _mapper = mapper;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="publicationDto"></param>
-        /// <returns></returns>
+        
         [HttpPost]
         [Authorize(Policy = "profesor")]
         public async Task<ActionResult<ResponseObjectJsonDto>> CreatePublication([FromBody] PublicationPostDto publicationDto)
@@ -137,7 +133,7 @@ namespace LlamitraApi.Controllers
         {
             try
             {
-                var publications = await _PublicationServices.GetAll();
+                var publications = await _PublicationServices.GetAllPublicationsAsync();
 
                 if (publications == null)
                 {

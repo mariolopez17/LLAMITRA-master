@@ -77,6 +77,7 @@ namespace LlamitraApi.Services
             var publications = await _PublicationRepository.GetAllPublicationWithVideos();
             var publicationsDtos = _mapper.Map<List<PublicacionGetDto>>(publications);
             return publicationsDtos;
+
         }
 
         public async Task<List<PublicacionGetDto>> GetAll()

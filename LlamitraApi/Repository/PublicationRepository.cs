@@ -23,7 +23,14 @@ namespace LlamitraApi.Repository
         public async Task<List<Publication>> GetAllPublicationWithVideos()
         {
             return await _dbContext.Publications
-                .Include(p => p.Videos) 
+                .Include(p => p.Videos)
+                //.Include(p => p.DescriptionProgram)
+                //.Include(p => p.Duration)
+                //.Include(p => p.DurationWeek)
+                //.Include(p => p.Category)
+                //.Include(p => p.KnowledgeLevel)
+                //.Include(p => p.Favorite)
+                //.Include(p => p.Comprado)
                 .ToListAsync();
         }
         public async Task<Publication> GetPublicationById(int id)

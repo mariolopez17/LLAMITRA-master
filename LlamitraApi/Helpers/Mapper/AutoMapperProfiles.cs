@@ -12,16 +12,24 @@ public class AutoMapperProfiles : Profile
     {
         CreateMap<User, UserPostDto>();
 
-        
-        CreateMap<Publication, PublicationPostDto>()
-            .ForMember(dest => dest.FilePaths, opt => opt.Ignore()) 
-            .ReverseMap();
+
+        CreateMap<Publication, PublicationPostDto>();
+            
+
 
         CreateMap<PublicationPostDto, Publication>()
             .ForMember(dest => dest.Videos, opt => opt.MapFrom(src => MapVideos(src.VideoDetails)));
 
         CreateMap<Publication, PublicacionGetDto>()
-            .ForMember(dest => dest.Videos, opt => opt.MapFrom(src => src.Videos));
+            .ForMember(dest => dest.VideoDetails, opt => opt.MapFrom(src => src.Videos));
+            //.ForMember(dest => dest.VideoDetails, opt => opt.MapFrom(src => src.DescriptionProgram))
+            //.ForMember(dest => dest.VideoDetails, opt => opt.MapFrom(src => src.Duration))
+            //.ForMember(dest => dest.VideoDetails, opt => opt.MapFrom(src => src.DurationWeek))
+            //.ForMember(dest => dest.VideoDetails, opt => opt.MapFrom(src => src.Category))
+            //.ForMember(dest => dest.VideoDetails, opt => opt.MapFrom(src => src.KnowledgeLevel))
+            //.ForMember(dest => dest.VideoDetails, opt => opt.MapFrom(src => src.Favorite))
+            //.ForMember(dest => dest.VideoDetails, opt => opt.MapFrom(src => src.Comprado));
+
 
         CreateMap<Video, VideoDto>()
             .ForMember(dest => dest.FilePath, opt => opt.MapFrom(src => src.FilePath)).ReverseMap();
