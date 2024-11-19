@@ -44,12 +44,12 @@ namespace LlamitraApi.Controllers
                 },
                 BackUrls = new PreferenceBackUrlsRequest
                 {
-                    Success = "https://tusitio.com/pago-exitoso",
-                    Failure = "https://tusitio.com/pago-fallido",
-                    Pending = "https://tusitio.com/pago-pendiente"
+                    Success = "http://localhost:4200/main/product/view",
+                    Failure = "http://localhost:4200/main/product/view",
+                    Pending = "http://localhost:4200/main/product/view"
                 },
                 AutoReturn = "approved",
-                NotificationUrl = "https://tusitio.com/api/payment/webhook"
+                NotificationUrl = "http://localhost:4200/main/product/view"
             };
 
             try
