@@ -36,7 +36,7 @@ namespace LlamitraApi.Repository
             var publicationRating = _dbContext.PublicationRatings
                 .FirstOrDefault(pr => pr.IdPublication == publicationId && pr.IdUser == userId);
 
-            return publicationRating?.Rating ?? 0; // O lanzar una excepción si prefieres
+            return publicationRating?.Rating ?? 0; 
         }
 
     }

@@ -25,38 +25,6 @@ namespace LlamitraApi.Services
             _dbContext = dbContext;
         }
 
-        //public async Task SavePublicationAsync(PublicationPostDto publicationDto)
-        //{
-        //    var publication = _mapper.Map<Publication>(publicationDto); 
-
-            
-        //    if (publicationDto.VideoDetails != null && publicationDto.VideoDetails.Count > 0)
-        //    {
-        //        foreach (var videoDetail in publicationDto.VideoDetails)
-        //        {
-        //            var video = new Video
-        //            {
-        //                FilePath = videoDetail.FilePath, 
-        //                Title = videoDetail.Title,
-        //                Description = videoDetail.Description
-        //            };
-
-        //            publication.Videos.Add(video);
-        //        }
-        //    }
-
-        //    publication.DescriptionProgram = publicationDto.DescriptionProgram;
-        //    publication.Duration = publicationDto.Duration;
-        //    publication.DurationWeek = publicationDto.DurationWeek;
-        //    publication.Category = publicationDto.Category;
-        //    publication.KnowledgeLevel = publicationDto.KnowledgeLevel;
-        //    publication.Favorite = publicationDto.Favorite;
-        //    publication.Comprado = publicationDto.Comprado;
-
-        //    _dbContext.Publications.Add(publication); 
-        //    await _dbContext.SaveChangesAsync();
-        //}
-
         public async Task CreatePublication(PublicationPostDto publicationDto)
         {
             var publication = _mapper.Map<Publication>(publicationDto); 
@@ -79,13 +47,6 @@ namespace LlamitraApi.Services
             return publicationsDtos;
 
         }
-
-        //public async Task<List<PublicacionGetDto>> GetAll()
-        //{
-        //    var publications = await _PublicationRepository.GetAllPublicationWithVideos();
-        //    var publicationsDtos = _mapper.Map<List<PublicacionGetDto>>(publications);
-        //    return publicationsDtos;
-        //}
 
         public async Task<PublicacionGetDto> GetPublicationWithVideosById(int id)
         {

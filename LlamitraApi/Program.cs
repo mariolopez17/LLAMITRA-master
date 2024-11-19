@@ -74,7 +74,6 @@ builder.Services.AddDbContext<ProyectoIContext>(options =>
 
 
 //Services
-//builder.Services.AddScoped<IAuthorizacionService, IAuthorizacionService>();
 var key = builder.Configuration.GetValue<string>("JwtSettings:Key");
 var keyBytes = Encoding.ASCII.GetBytes(key);
 builder.Services.AddAuthentication(config =>
@@ -131,6 +130,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowSpecificOrigin");
+
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 

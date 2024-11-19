@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LlamitraApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+30ed9cf8c057fa69b510af13e6e72bb5f40ae52c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4f14035bb891100af242c69f859dc367e2b198ea")]
 [assembly: System.Reflection.AssemblyProductAttribute("LlamitraApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LlamitraApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

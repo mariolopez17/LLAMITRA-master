@@ -8,6 +8,7 @@ using LlamitraApi.Models;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Authorization;
+using LlamitraApi.Models.Dtos.CourseDtos;
 
 namespace LlamitraApi.Controllers
 {
@@ -16,6 +17,7 @@ namespace LlamitraApi.Controllers
     public class UserAuthController : ControllerBase
     {
         private readonly IAuthorizacionService _authorizacionService;
+        private readonly IEmailServices _emailService;
         public UserAuthController(IAuthorizacionService authorizacionService)
         {
             _authorizacionService = authorizacionService;

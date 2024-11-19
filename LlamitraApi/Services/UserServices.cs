@@ -29,7 +29,7 @@ namespace LlamitraApi.Services
             await _userRepository.AddUser(user);
 
             string htmlContent = _emailService.GetHtmlContent("EmailRegistro.html");
-
+            htmlContent = htmlContent.Replace("[Nombre]", userPost.Name);
 
             var emailRequest = new EmailDTO
             {
