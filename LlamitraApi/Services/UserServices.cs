@@ -27,12 +27,15 @@ namespace LlamitraApi.Services
                 Password = Encrypt.GetSHA256(userPost.Password)
             };
             await _userRepository.AddUser(user);
-        
+
+            string htmlContent = _emailService.GetHtmlContent("EmailRegistro.html");
+
+
             var emailRequest = new EmailDTO
             {
             Para = userPost.Mail,
             Asunto = "Confirmación de Registro",
-            Contenido = "Gracias por registrarte en nuestra aplicación. ¡Bienvenido!"
+            Contenido = htmlContent
             };
 
             _emailService.SendEmail(emailRequest);

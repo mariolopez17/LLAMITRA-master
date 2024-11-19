@@ -153,29 +153,29 @@ namespace LlamitraApi.Services
 
             return await GuardarHistorialRefreshToken(idUser, tokenCreated, refreshTokenCreated);
         }
-        private ClaimsPrincipal ValidarToken(string token)
-        {
-            var key = _configuration.GetValue<string>("JwtSettings:Key");
-            var keyBytes = Encoding.UTF8.GetBytes(key);
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var validationParameters = new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                ValidateLifetime = true
-            };
+        //private ClaimsPrincipal ValidarToken(string token)
+        //{
+        //    var key = _configuration.GetValue<string>("JwtSettings:Key");
+        //    var keyBytes = Encoding.UTF8.GetBytes(key);
+        //    var tokenHandler = new JwtSecurityTokenHandler();
+        //    var validationParameters = new TokenValidationParameters
+        //    {
+        //        ValidateIssuerSigningKey = true,
+        //        IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
+        //        ValidateIssuer = false,
+        //        ValidateAudience = false,
+        //        ValidateLifetime = true
+        //    };
 
-            try
-            {
-                var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
-                return principal;
-            }
-            catch
-            {
-                return null;
-            }
-        }
+        //    try
+        //    {
+        //        var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
+        //        return principal;
+        //    }
+        //    catch
+        //    {
+        //        return null;
+        //    }
+        //}
     }
 }

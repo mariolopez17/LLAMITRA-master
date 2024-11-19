@@ -159,6 +159,7 @@ namespace LlamitraApi.Controllers
                 return StatusCode(500, $"Error al registrar la publicacion: {ex.Message}, tu error no esta dentro de los errores validados");
             }
         }
+
         [HttpGet("random-list")]
         public async Task<ActionResult<ResponseObjectJsonDto>> GetRandomList()
         {

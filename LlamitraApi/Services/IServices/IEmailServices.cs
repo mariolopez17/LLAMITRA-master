@@ -4,5 +4,6 @@ namespace LlamitraApi.Services.IServices
     public interface IEmailServices
     {
        void SendEmail(EmailDTO request);
+       string GetHtmlContent(string fileName);
     }
 }

@@ -6,6 +6,7 @@ using MailKit.Net.Smtp;
 using LlamitraApi.Services.IServices;
 namespace LlamitraApi.Services
 {
+
     public class EmailServices : IEmailServices
     {
         private readonly IConfiguration _config;
@@ -13,6 +14,18 @@ namespace LlamitraApi.Services
         public EmailServices(IConfiguration config)
         {
             _config = config;
+        }
+
+        public string GetHtmlContent(string fileName)
+        {
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "helpers/emailRequest", fileName);
+
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException($"El archivo HTML '{fileName}' no fue encontrado en '{path}'.");
+            }
+
+            return File.ReadAllText(path);
         }
 
         public void SendEmail(EmailDTO request)
@@ -38,4 +51,5 @@ namespace LlamitraApi.Services
 
         }
     }
+        
 }
