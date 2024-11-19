@@ -192,7 +192,61 @@ namespace LlamitraApi.Controllers
             }
         }
 
-        
+        [HttpPut("{id}")]
+        [Authorize(Policy = "profesor")]
+        public async Task<ActionResult<ResponseObjectJsonDto>> UpdatePublication(int id, [FromBody] PublicationPostDto publicationDto)
+        {
+            try
+            {
+                if (publicationDto == null)
+                {
+                    return BadRequest(new ResponseObjectJsonDto
+                    {
+                        Code = (int)CodeHttp.BADREQUEST,
+                        Message = "Los datos de la publicación son inválidos.",
+                        Response = null
+                    });
+                }
+
+                await _PublicationServices.UpdatePublication(id, publicationDto);
+                return Ok(new ResponseObjectJsonDto
+                {
+                    Code = (int)HttpStatusCode.OK,
+                    Message = "Publicación actualizada con éxito.",
+                    Response = publicationDto
+                });
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new ResponseObjectJsonDto
+                {
+                    Code = (int)CodeHttp.NOTFOUND,
+                    Message = "Publicación no encontrada.",
+                    Response = null
+                });
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Unauthorized(new ResponseObjectJsonDto
+                {
+                    Code = (int)CodeHttp.FORBIDDEN,
+                    Message = "No tienes acceso porque no eres profesor.",
+                    Response = null
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ResponseObjectJsonDto
+                {
+                    Code = (int)CodeHttp.INTERNALSERVER,
+                    Message = $"Error al actualizar la publicación: {ex.Message}",
+                    Response = null
+                });
+            }
+        }
+
+
+
         [HttpDelete("{id}")]
         [Authorize(Policy = "profesor")]
 

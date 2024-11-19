@@ -33,11 +33,32 @@ namespace LlamitraApi.Repository
                 .FirstOrDefaultAsync(p => p.IdPublication == id);
         }
 
-
-        public Task UpdatePublication(Publication publication)
+        public async Task UpdatePublication(Publication publication)
         {
-            throw new NotImplementedException();
+            var existingPublication = await _dbContext.Publications
+                .Include(p => p.Videos)
+                .FirstOrDefaultAsync(p => p.IdPublication == publication.IdPublication);
+
+            if (existingPublication == null)
+                throw new KeyNotFoundException("Publicación no encontrada.");
+
+            
+            _dbContext.Entry(existingPublication).CurrentValues.SetValues(publication);
+
+            
+            existingPublication.Videos.Clear();
+            if (publication.Videos != null && publication.Videos.Any())
+            {
+                foreach (var video in publication.Videos)
+                {
+                    existingPublication.Videos.Add(video);
+                }
+            }
+
+            await _dbContext.SaveChangesAsync();
         }
+
+
 
         public async Task DeletePublication(Publication publication)
         {

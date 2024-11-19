@@ -11,8 +11,9 @@ namespace LlamitraApi.Services.IServices
         Task<PublicacionGetDto> GetPublicationWithVideosById(int id);
         //Task<List<PublicacionGetDto>> GetAll(); 
         Task<List<PublicacionGetDto>> GetRandomList(); 
-        Task<Publication> GetById(int id); 
-        Task UpdatePublication(Publication publication); 
+        Task<Publication> GetById(int id);
+        Task UpdatePublication(int id, PublicationPostDto publicationDto);
+
         Task DeletePublication(Publication publication); 
     }
 }

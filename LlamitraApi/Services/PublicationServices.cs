@@ -119,10 +119,20 @@ namespace LlamitraApi.Services
             return await _PublicationRepository.GetPublicationById(id);
         }
 
-        public Task UpdatePublication(Publication publication)
+        public async Task UpdatePublication(int id, PublicationPostDto publicationDto)
         {
-            throw new NotImplementedException();
+            var existingPublication = await _PublicationRepository.GetPublicationById(id);
+            if (existingPublication == null)
+                throw new KeyNotFoundException("Publicación no encontrada.");
+
+            
+            var updatedPublication = _mapper.Map<Publication>(publicationDto);
+            updatedPublication.IdPublication = id; 
+
+            
+            await _PublicationRepository.UpdatePublication(updatedPublication);
         }
+
 
         public async Task DeletePublication(Publication publication)
         {
